@@ -71,7 +71,15 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
         canvasGroup.blocksRaycasts = true;
         transform.SetParent(parentToReturnTo);
-        transform.localScale = Vector3.one;
+
+        GetComponent<GridLayoutGroup>().cellSize = new Vector2(60, 60); // TODO un-hardcode this
+
+        Block[] blocks = GetComponentsInChildren<Block>();
+        foreach (Block block in blocks)
+        {
+            RectTransform rt = block.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(60, 60); // TODO un-hardcode this
+        }
 
         state = State.Idle;
     }
