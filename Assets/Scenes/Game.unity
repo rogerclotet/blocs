@@ -11321,6 +11321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ddc890d45f7294384af66dfa414c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 394781419}
   eventSystem: {fileID: 1312881590}
 --- !u!114 &1959689693
 MonoBehaviour:

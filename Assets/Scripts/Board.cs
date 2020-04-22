@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public GameManager gameManager;
     public EventSystem eventSystem;
 
     private Cell[][] cells;
@@ -86,6 +87,7 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         }
 
         Destroy(eventData.pointerDrag);
+        gameManager.PiecePlaced();
     }
 
     Cell GetCellUnderBlock(Block block)

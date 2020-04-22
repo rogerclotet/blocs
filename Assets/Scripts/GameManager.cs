@@ -10,25 +10,35 @@ public class GameManager : MonoBehaviour
     public PieceDefinition[] pieceDefinitions;
     public Canvas canvas;
 
+    private int emptySlots = 0;
+
+    private const int slotsAmount = 3;
+
     void Start()
     {
         GeneratePieces();
     }
 
-    void Update()
-    {
-
-    }
-
     void GeneratePieces()
     {
         GameObject[] slots = GameObject.FindGameObjectsWithTag("PieceSlot");
-        Piece[] pieces = PieceFactory.CreatePieceSet(3, pieceDefinitions, piecePrefab, blockPrefab, emptyBlockPrefab, canvas);
+        Piece[] pieces = PieceFactory.CreatePieceSet(slotsAmount, pieceDefinitions, piecePrefab, blockPrefab, emptyBlockPrefab, canvas);
 
         for (int i = 0; i < pieces.Length; i++)
         {
             pieces[i].transform.SetParent(slots[i].transform);
             pieces[i].transform.localScale = Vector3.one;
+        }
+    }
+
+    public void PiecePlaced()
+    {
+        emptySlots++;
+
+        if (emptySlots >= slotsAmount)
+        {
+            GeneratePieces();
+            emptySlots = 0;
         }
     }
 }
