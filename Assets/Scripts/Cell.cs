@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    private Block block;
+
     public Vector2 Position { get; protected set; }
-    public bool Empty { get; protected set; }
+    public bool Empty
+    {
+        get
+        {
+            return block == null;
+        }
+    }
 
     public void Init(Vector2 position)
     {
         Position = position;
-        Empty = true;
     }
 
     public void Place(Block block)
     {
+        this.block = block;
         block.Assign(this);
-        Empty = false;
+    }
+
+    public void Clear()
+    {
+        if (block != null)
+        {
+            Destroy(block.gameObject);
+        }
     }
 }

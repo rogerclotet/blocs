@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,15 +29,15 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
             throw new System.Exception(error);
         }
 
-        Cell[][] cellObjects = new Cell[size][];
+        cells = new Cell[size][];
         for (int i = 0; i < size; i++)
         {
-            cellObjects[i] = new Cell[size];
+            cells[i] = new Cell[size];
             for (int j = 0; j < size; j++)
             {
                 Cell cell = objects[i * size + j].GetComponent<Cell>();
                 cell.Init(new Vector2(i, j));
-                cellObjects[i][j] = cell;
+                cells[i][j] = cell;
             }
         }
     }
@@ -69,22 +70,23 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         if (eventData.pointerDrag == null) return; // TODO check it's actually a piece?
 
         Block[] blocks = dragging.GetComponentsInChildren<Block>();
-        foreach (Block block in blocks)
+        Cell[] cellsUnderBlocks = new Cell[blocks.Length];
+        for (int i = 0; i < blocks.Length; i++)
         {
-            Cell c = GetCellUnderBlock(block);
-            if (c == null || !c.Empty)
+            Block block = blocks[i];
+            Cell cell = GetCellUnderBlock(block);
+            if (cell == null || !cell.Empty)
             {
                 // We can't place some of the blocks
                 return;
             }
+
+            cellsUnderBlocks[i] = cell;
         }
 
-        foreach (Block block in blocks)
-        {
-            // TODO save cells from before
-            Cell c = GetCellUnderBlock(block);
-            c.Place(block);
-        }
+        PlaceBlocksInCells(blocks, cellsUnderBlocks);
+
+        RemoveCompleteLines();
 
         Destroy(eventData.pointerDrag);
         gameManager.PiecePlaced();
@@ -109,5 +111,66 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         }
 
         return null;
+    }
+
+    void PlaceBlocksInCells(Block[] blocks, Cell[] cellsUnderBlocks)
+    {
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            Block b = blocks[i];
+            cellsUnderBlocks[i].Place(b);
+        }
+    }
+
+    void RemoveCompleteLines()
+    {
+        bool[] completeRows = new bool[size];
+        bool[] completeColumns = new bool[size];
+        for (int i = 0; i < size; i++)
+        {
+            completeRows[i] = true;
+            completeColumns[i] = true;
+        }
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (cells[i][j].Empty)
+                {
+                    completeRows[i] = false;
+                    completeColumns[j] = false;
+                }
+            }
+        }
+
+        for (int i = 0; i < size; i++)
+        {
+            if (completeRows[i])
+            {
+                ClearRow(i);
+            }
+
+            if (completeColumns[i])
+            {
+                ClearColumn(i);
+            }
+        }
+    }
+
+    void ClearRow(int i)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            cells[i][j].Clear();
+        }
+    }
+
+    void ClearColumn(int j)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            cells[i][j].Clear();
+        }
     }
 }
