@@ -19,12 +19,50 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     private Transform parentToReturnTo;
     private bool dragEnabled = true;
 
+    private const int size = 5;
     private const float returnSpeed = 10;
 
     void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         parentToReturnTo = transform.parent;
+    }
+
+    public void Init(PieceDefinition definition, Block blockPrefab, GameObject emptyBlockPrefab)
+    {
+        // TODO create blocks from PieceDefinition
+
+        GameObject prefab;
+
+        int defIndex = 0;
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (defIndex >= definition.blockPositions.Length)
+                {
+                    prefab = emptyBlockPrefab;
+                }
+                else
+                {
+                    Vector2 pos = definition.blockPositions[defIndex];
+                    if (pos.x == i && pos.y == j)
+                    {
+                        prefab = blockPrefab.gameObject;
+
+                        // We start checking the next block in the definition
+                        defIndex++;
+                    }
+                    else
+                    {
+                        prefab = emptyBlockPrefab;
+                    }
+                }
+
+                GameObject o = Instantiate(prefab);
+                o.transform.SetParent(transform);
+            }
+        }
     }
 
     void Update()

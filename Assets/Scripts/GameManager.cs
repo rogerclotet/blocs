@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public Piece piecePrefab;
+    public Block blockPrefab;
+    public GameObject emptyBlockPrefab;
+    public PieceDefinition[] pieceDefinitions;
     public Canvas canvas;
 
     void Start()
@@ -19,10 +22,8 @@ public class GameManager : MonoBehaviour
 
     void GeneratePieces()
     {
-        return; // TODO
-
         GameObject[] slots = GameObject.FindGameObjectsWithTag("PieceSlot");
-        Piece[] pieces = PieceFactory.CreatePieceSet(3, piecePrefab, canvas);
+        Piece[] pieces = PieceFactory.CreatePieceSet(3, pieceDefinitions, piecePrefab, blockPrefab, emptyBlockPrefab, canvas);
 
         for (int i = 0; i < pieces.Length; i++)
         {
