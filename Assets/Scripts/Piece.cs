@@ -18,6 +18,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     private CanvasGroup canvasGroup;
     private Transform parentToReturnTo;
     private bool dragEnabled = true;
+    private int rows;
 
     private const float returnSpeed = 10;
 
@@ -29,14 +30,15 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
     public void Init(PieceDefinition definition, Block blockPrefab, GameObject emptyBlockPrefab)
     {
-        // TODO create blocks from PieceDefinition
+        int columns = definition.columns;
+        rows = definition.rows;
 
         GameObject prefab;
 
         int defIndex = 0;
-        for (int i = 0; i < definition.squareSize; i++)
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < definition.squareSize; j++)
+            for (int j = 0; j < columns; j++)
             {
                 if (defIndex >= definition.blockPositions.Length)
                 {
@@ -62,7 +64,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
                 o.transform.SetParent(transform);
 
                 GridLayoutGroup glg = GetComponent<GridLayoutGroup>();
-                glg.constraintCount = definition.squareSize;
+                glg.constraintCount = columns;
             }
         }
     }
@@ -100,7 +102,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
         transform.position = new Vector3(
             eventData.position.x,
-            eventData.position.y + Screen.dpi / 2,
+            eventData.position.y + Screen.dpi / 2 + rows * Screen.dpi / 5,
             0
         );
     }

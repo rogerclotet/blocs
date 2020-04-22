@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7d0c591e3d34548a414d5d60390591, type: 3}
   m_Name: 3x3 L 4
   m_EditorClassIdentifier: 
-  squareSize: 3
+  columns: 3
+  rows: 3
   blockPositions:
   - {x: 0, y: 0}
   - {x: 0, y: 1}
