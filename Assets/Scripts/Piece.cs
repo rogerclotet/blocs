@@ -102,7 +102,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
         transform.position = new Vector3(
             eventData.position.x,
-            eventData.position.y + Screen.dpi / 2 + rows * Screen.dpi / 5,
+            eventData.position.y + Screen.dpi / 1.5f,
             0
         );
     }
