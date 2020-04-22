@@ -440,6 +440,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2a26688bee22b254f98aa791169c1425, type: 2}
   - {fileID: 11400000, guid: b866b7206a7378d419cf5baafc8c459a, type: 2}
   canvas: {fileID: 564066893}
+  scoreText: {fileID: 25641627}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

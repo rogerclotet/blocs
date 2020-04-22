@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,14 +10,35 @@ public class GameManager : MonoBehaviour
     public GameObject emptyBlockPrefab;
     public PieceDefinition[] pieceDefinitions;
     public Canvas canvas;
+    public Text scoreText;
+
+    public int Score { get; set; }
 
     private int emptySlots = 0;
+    private int displayedScore;
+    private float lastScoreUpdate;
 
     private const int slotsAmount = 3;
 
     void Start()
     {
         GeneratePieces();
+    }
+
+    void Update()
+    {
+        float now = Time.realtimeSinceStartup;
+
+        if (now < lastScoreUpdate + 0.05f) return;
+
+        lastScoreUpdate = now;
+
+        if (displayedScore < Score)
+        {
+            displayedScore++;
+        }
+
+        scoreText.text = $"Score: {displayedScore.ToString()}";
     }
 
     void GeneratePieces()

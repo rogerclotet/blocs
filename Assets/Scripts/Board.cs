@@ -116,6 +116,7 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         {
             Block b = blocks[i];
             cellsUnderBlocks[i].Place(b);
+            gameManager.Score++;
         }
     }
 
@@ -155,19 +156,29 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         }
     }
 
-    void ClearRow(int i)
+    void ClearRow(int row)
     {
         for (int j = 0; j < size; j++)
         {
-            cells[i][j].Clear();
+            ClearCell(row, j);
         }
     }
 
-    void ClearColumn(int j)
+    void ClearColumn(int column)
     {
         for (int i = 0; i < size; i++)
         {
-            cells[i][j].Clear();
+            ClearCell(i, column);
+        }
+    }
+
+    void ClearCell(int row, int column)
+    {
+        Cell c = cells[row][column];
+        if (!c.Empty)
+        {
+            c.Clear();
+            gameManager.Score++;
         }
     }
 }
