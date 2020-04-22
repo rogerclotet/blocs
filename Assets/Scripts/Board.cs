@@ -45,11 +45,7 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         // If dragging, highlight legal positions
         if (dragging != null)
         {
-            Cell cell = GetCellUnderPiece();
-            if (cell != null)
-            {
-                // Debug.Log("Hit " + cell.transform.name + ": " + cell.Position);
-            }
+
         }
     }
 
@@ -69,17 +65,33 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
 
     public void OnDrop(PointerEventData eventData)
     {
-        Cell cell = GetCellUnderPiece();
-        if (cell != null)
+        if (eventData.pointerDrag == null) return; // TODO check it's actually a piece?
+
+        Block[] blocks = dragging.GetComponentsInChildren<Block>();
+        foreach (Block block in blocks)
         {
-            dragging.GetComponent<Piece>().SetFinalPosition(cell.transform);
+            Cell c = GetCellUnderBlock(block);
+            if (c == null || !c.Empty)
+            {
+                // We can't place some of the blocks
+                return;
+            }
         }
+
+        foreach (Block block in blocks)
+        {
+            // TODO save cells from before
+            Cell c = GetCellUnderBlock(block);
+            c.Place(block);
+        }
+
+        Destroy(eventData.pointerDrag);
     }
 
-    Cell GetCellUnderPiece()
+    Cell GetCellUnderBlock(Block block)
     {
         PointerEventData eventData = new PointerEventData(eventSystem);
-        eventData.position = dragging.transform.position;
+        eventData.position = block.transform.position;
 
         List<RaycastResult> results = new List<RaycastResult>();
 

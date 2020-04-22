@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -28,7 +29,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
     void Update()
     {
-        if (state == State.Idle)
+        if (state == State.Idle && transform.localPosition != Vector3.zero)
         {
             transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, returnSpeed * Time.deltaTime);
         }
@@ -42,7 +43,15 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
         canvasGroup.blocksRaycasts = false;
         transform.SetParent(canvas.transform);
-        transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+
+        GetComponent<GridLayoutGroup>().cellSize = new Vector2(100, 100); // TODO un-hardcode this
+
+        Block[] blocks = GetComponentsInChildren<Block>();
+        foreach (Block block in blocks)
+        {
+            RectTransform rt = block.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(100, 100); // TODO un-hardcode this
+        }
     }
 
     public void OnDrag(PointerEventData eventData)

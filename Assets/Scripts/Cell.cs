@@ -5,9 +5,17 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     public Vector2 Position { get; protected set; }
+    public bool Empty { get; protected set; }
 
     public void Init(Vector2 position)
     {
         Position = position;
+        Empty = true;
+    }
+
+    public void Place(Block block)
+    {
+        block.Assign(this);
+        Empty = false;
     }
 }
