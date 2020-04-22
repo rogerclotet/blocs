@@ -100,7 +100,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
         transform.position = new Vector3(
             eventData.position.x,
-            eventData.position.y + 50, // TODO use y based on piece height
+            eventData.position.y + Screen.dpi / 2,
             0
         );
     }

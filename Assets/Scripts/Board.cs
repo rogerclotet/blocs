@@ -9,6 +9,7 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
 {
     public GameManager gameManager;
     public EventSystem eventSystem;
+    public Cell cellPrefab;
 
     private Cell[][] cells;
     private GameObject dragging;
@@ -20,14 +21,7 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
     {
         raycaster = GetComponent<GraphicRaycaster>();
 
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Cell");
-        if (objects.Length != size * size)
-        {
-            string error = "The board must contain " + size * size + " cells";
-            Debug.LogError(error);
-
-            throw new System.Exception(error);
-        }
+        Transform parentGrid = GetComponentInChildren<GridLayoutGroup>().transform;
 
         cells = new Cell[size][];
         for (int i = 0; i < size; i++)
@@ -35,9 +29,12 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
             cells[i] = new Cell[size];
             for (int j = 0; j < size; j++)
             {
-                Cell cell = objects[i * size + j].GetComponent<Cell>();
+                Cell cell = Instantiate(cellPrefab);
                 cell.Init(new Vector2(i, j));
                 cells[i][j] = cell;
+
+                cell.transform.SetParent(parentGrid);
+                cell.transform.localScale = Vector3.one;
             }
         }
     }
