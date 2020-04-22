@@ -19,7 +19,6 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     private Transform parentToReturnTo;
     private bool dragEnabled = true;
 
-    private const int size = 5;
     private const float returnSpeed = 10;
 
     void Start()
@@ -35,9 +34,9 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
         GameObject prefab;
 
         int defIndex = 0;
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < definition.squareSize; i++)
         {
-            for (int j = 0; j < size; j++)
+            for (int j = 0; j < definition.squareSize; j++)
             {
                 if (defIndex >= definition.blockPositions.Length)
                 {
@@ -61,6 +60,9 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
                 GameObject o = Instantiate(prefab);
                 o.transform.SetParent(transform);
+
+                GridLayoutGroup glg = GetComponent<GridLayoutGroup>();
+                glg.constraintCount = definition.squareSize;
             }
         }
     }

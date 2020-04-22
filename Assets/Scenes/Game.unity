@@ -2738,6 +2738,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64e64c536f4044c46b21b63fb2b86c50, type: 2}
   - {fileID: 11400000, guid: 9b4990b0fa52be74cb4b9287065501ce, type: 2}
   - {fileID: 11400000, guid: 04729aa8fc7c2a84e87ad6e0701a08f2, type: 2}
+  - {fileID: 11400000, guid: 3c22a6262f371ff4395887dc4ad8a470, type: 2}
+  - {fileID: 11400000, guid: 5f50907e5ce02444da25a797ef01217b, type: 2}
   canvas: {fileID: 564066893}
 --- !u!1001 &406316094
 PrefabInstance:
