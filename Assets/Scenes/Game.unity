@@ -1794,6 +1794,7 @@ MonoBehaviour:
   board: {fileID: 1959689692}
   nextPieces: {fileID: 263955240}
   score: 0
+  highScore: 0
 --- !u!1 &437608907
 GameObject:
   m_ObjectHideFlags: 0
