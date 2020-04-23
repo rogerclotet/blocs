@@ -78,6 +78,7 @@ public class NextPieces : MonoBehaviour
             {
                 p.transform.SetParent(slots[i].transform);
                 p.transform.localScale = Vector3.one;
+                p.transform.localPosition = Vector3.zero;
 
                 Definitions[i] = p.Definition;
             }
