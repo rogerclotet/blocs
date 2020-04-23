@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,14 +11,18 @@ public class GameManager : MonoBehaviour
     public Board board;
     public NextPieces nextPieces;
     public int score;
+    public int highScore;
 
     private GameState gameState;
     private int displayedScore;
+    private int displayedHighScore;
     private float lastScoreUpdate;
 
 
     void Start()
     {
+        LoadGame();
+
         nextPieces.GeneratePieces();
 
         PieceDefinition[] defs = new PieceDefinition[nextPieces.Definitions.Length];
@@ -41,7 +47,12 @@ public class GameManager : MonoBehaviour
             displayedScore += (int)Mathf.Sign(score - displayedScore);
         }
 
-        scoreText.text = $"Punts: {displayedScore.ToString()}";
+        if (displayedHighScore != highScore)
+        {
+            displayedHighScore += (int)Mathf.Sign(highScore - displayedHighScore);
+        }
+
+        scoreText.text = $"Punts: {displayedScore.ToString()}\nRécord: {displayedHighScore.ToString()}";
     }
 
     public void OnPiecePlaced(Piece piece)
@@ -57,6 +68,13 @@ public class GameManager : MonoBehaviour
 
         // TODO limit number of saved previous states
         gameState = new GameState(score, board.Export(), defs, nextPieces.RandomState, gameState);
+
+        if (score > highScore)
+        {
+            highScore = score;
+        }
+
+        SaveGame();
     }
 
     public void Undo()
@@ -69,5 +87,33 @@ public class GameManager : MonoBehaviour
         board.Import(gameState.board);
         nextPieces.GeneratePieces(gameState.pieces);
         nextPieces.RandomState = gameState.randomState;
+    }
+
+    void SaveGame()
+    {
+        SaveData saveData = new SaveData() { highScore = highScore };
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.OpenWrite(Application.persistentDataPath + "/save.blc");
+        bf.Serialize(file, saveData);
+        file.Close();
+    }
+
+    void LoadGame()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+
+        try
+        {
+            FileStream file = File.OpenRead(Application.persistentDataPath + "/save.blc");
+            SaveData saveData = (SaveData)bf.Deserialize(file);
+            file.Close();
+
+            highScore = saveData.highScore;
+            displayedHighScore = highScore;
+        }
+        catch (FileNotFoundException)
+        {
+            Debug.Log("Save game not found");
+        }
     }
 }
