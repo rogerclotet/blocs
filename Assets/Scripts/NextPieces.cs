@@ -9,6 +9,7 @@ public class NextPieces : MonoBehaviour
     public GameObject emptyBlockPrefab;
     public Canvas canvas;
 
+    public Random.State RandomState { get; set; }
     public PieceDefinition[] Definitions { get; protected set; }
     public bool Empty
     {
@@ -34,6 +35,7 @@ public class NextPieces : MonoBehaviour
 
     void Start()
     {
+        RandomState = Random.state;
         slots = GameObject.FindGameObjectsWithTag("PieceSlot");
         Definitions = new PieceDefinition[slotsAmount];
     }
@@ -50,7 +52,9 @@ public class NextPieces : MonoBehaviour
 
     public void GeneratePieces()
     {
-        Piece[] pieces = PieceFactory.CreateRandomPieceSet(slotsAmount, pieceDefinitions, piecePrefab, blockPrefab, emptyBlockPrefab, canvas);
+        Piece[] pieces = PieceFactory.CreateRandomPieceSet(RandomState, slotsAmount, pieceDefinitions, piecePrefab, blockPrefab, emptyBlockPrefab, canvas);
+
+        RandomState = Random.state;
 
         SetPieces(pieces);
     }

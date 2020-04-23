@@ -6,6 +6,7 @@ using UnityEngine;
 public static class PieceFactory
 {
     public static Piece[] CreateRandomPieceSet(
+        Random.State state,
         int amount,
         PieceDefinition[] definitions,
         Piece piecePrefab,
@@ -14,6 +15,8 @@ public static class PieceFactory
         Canvas canvas
     )
     {
+        Random.state = state;
+
         PieceDefinition[] defs = definitions.OrderBy(x => Random.value).Take(amount).ToArray();
 
         return CreatePieceSet(defs, piecePrefab, blockPrefab, emptyBlockPrefab, canvas);

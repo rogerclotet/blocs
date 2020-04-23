@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
             PieceDefinition def = nextPieces.Definitions[i];
             defs[i] = def == null ? null : def.Clone();
         }
-        gameState = new GameState(score, board.Export(), defs, null);
+        gameState = new GameState(score, board.Export(), defs, nextPieces.RandomState, null);
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         }
 
         // TODO limit number of saved previous states
-        gameState = new GameState(score, board.Export(), defs, gameState);
+        gameState = new GameState(score, board.Export(), defs, nextPieces.RandomState, gameState);
     }
 
     public void Undo()
@@ -68,5 +68,6 @@ public class GameManager : MonoBehaviour
         score = gameState.score;
         board.Import(gameState.board);
         nextPieces.GeneratePieces(gameState.pieces);
+        nextPieces.RandomState = gameState.randomState;
     }
 }
