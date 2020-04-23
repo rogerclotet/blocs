@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 58dc3192dc738274b967629ce050135e
+guid: 9b1f19314f6ccdd4996a3dea88b078da
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Toy
+  - Gamer
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
