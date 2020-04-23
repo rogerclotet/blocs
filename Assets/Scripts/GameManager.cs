@@ -4,6 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,11 +13,14 @@ public class GameManager : MonoBehaviour
     public NextPieces nextPieces;
     public int score;
     public int highScore;
+    public GameObject postGameOverlay;
+    public Text postGameText;
 
     private GameState gameState;
     private int displayedScore;
     private int displayedHighScore;
     private float lastScoreUpdate;
+    private bool isNewHighScore = false;
 
 
     void Start()
@@ -72,9 +76,12 @@ public class GameManager : MonoBehaviour
         if (score > highScore)
         {
             highScore = score;
+            isNewHighScore = true;
         }
 
         SaveGame();
+
+        CheckPossibleMoves();
     }
 
     public void Undo()
@@ -87,6 +94,25 @@ public class GameManager : MonoBehaviour
         board.Import(gameState.board);
         nextPieces.GeneratePieces(gameState.pieces);
         nextPieces.RandomState = gameState.randomState;
+    }
+
+    void CheckPossibleMoves()
+    {
+        foreach (PieceDefinition pieceDefinition in nextPieces.Definitions)
+        {
+            if (pieceDefinition != null && board.IsPiecePlaceable(pieceDefinition))
+            {
+                return;
+            }
+        }
+
+        postGameText.text = $"has aconseguit\n{score} punts!";
+        if (isNewHighScore)
+        {
+            postGameText.text += $"\n\n<color=#A4C54F>nou récord!</color>";
+        }
+
+        postGameOverlay.SetActive(true);
     }
 
     void SaveGame()
@@ -115,5 +141,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Save game not found");
         }
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("Game");
     }
 }

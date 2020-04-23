@@ -95,6 +95,37 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         gameManager.OnPiecePlaced(piece);
     }
 
+    public bool IsPiecePlaceable(PieceDefinition piece)
+    {
+        for (int i = 0; i < size - piece.rows + 1; i++)
+        {
+            for (int j = 0; j < size - piece.columns + 1; j++)
+            {
+                if (IsPiecePlaceableFrom(piece, i, j))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    bool IsPiecePlaceableFrom(PieceDefinition piece, int row, int col)
+    {
+        for (int k = 0; k < piece.blockPositions.Length; k++)
+        {
+            Vector2Int pos = piece.blockPositions[k];
+
+            if (!cells[row + pos.x][col + pos.y].Empty)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     Cell GetCellUnderBlock(Block block)
     {
         PointerEventData eventData = new PointerEventData(eventSystem);
