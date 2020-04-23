@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
             displayedScore += (int)Mathf.Sign(score - displayedScore);
         }
 
-        scoreText.text = $"Puntuació: {displayedScore.ToString()}";
+        scoreText.text = $"Punts: {displayedScore.ToString()}";
     }
 
     public void OnPiecePlaced(Piece piece)

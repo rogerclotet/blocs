@@ -31,7 +31,7 @@ public class Cell : MonoBehaviour
     {
         if (block != null)
         {
-            Destroy(block.gameObject);
+            block.Clear();
         }
     }
 }

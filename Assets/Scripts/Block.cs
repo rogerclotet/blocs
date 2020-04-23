@@ -27,4 +27,15 @@ public class Block : MonoBehaviour
         transform.SetParent(cell.transform);
         movingToParent = true;
     }
+
+    public void Clear()
+    {
+        Animator animator = GetComponent<Animator>();
+        animator.Play("BlockDisappear");
+    }
+
+    public void SelfDestruct()
+    {
+        Destroy(gameObject);
+    }
 }
