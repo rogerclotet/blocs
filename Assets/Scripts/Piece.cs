@@ -14,11 +14,13 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
     public Canvas canvas;
 
+    public PieceDefinition Definition { get; protected set; }
+    public int Slot { get; protected set; }
+
     private State state = State.Idle;
     private CanvasGroup canvasGroup;
     private Transform parentToReturnTo;
     private bool dragEnabled = true;
-    private int rows;
 
     private const float returnSpeed = 10;
 
@@ -28,10 +30,13 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
         parentToReturnTo = transform.parent;
     }
 
-    public void Init(PieceDefinition definition, Block blockPrefab, GameObject emptyBlockPrefab)
+    public void Init(int slot, PieceDefinition definition, Block blockPrefab, GameObject emptyBlockPrefab)
     {
+        Slot = slot;
+        Definition = definition;
+
         int columns = definition.columns;
-        rows = definition.rows;
+        int rows = definition.rows;
 
         GameObject prefab;
 

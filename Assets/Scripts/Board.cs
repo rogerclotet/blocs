@@ -10,6 +10,7 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
     public GameManager gameManager;
     public EventSystem eventSystem;
     public Cell cellPrefab;
+    public Block blockPrefab;
 
     private Cell[][] cells;
     private GameObject dragging;
@@ -17,10 +18,8 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
 
     private const int size = 10;
 
-    void Start()
+    void Awake()
     {
-        raycaster = GetComponent<GraphicRaycaster>();
-
         Transform parentGrid = GetComponentInChildren<GridLayoutGroup>().transform;
 
         cells = new Cell[size][];
@@ -39,12 +38,16 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         }
     }
 
+    void Start()
+    {
+        raycaster = GetComponent<GraphicRaycaster>();
+    }
+
     void Update()
     {
-        // If dragging, highlight legal positions
         if (dragging != null)
         {
-
+            // TODO If dragging, highlight legal positions
         }
     }
 
@@ -85,8 +88,11 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
 
         RemoveCompleteLines();
 
+        Piece piece = dragging.GetComponent<Piece>();
+
         Destroy(eventData.pointerDrag);
-        gameManager.PiecePlaced();
+
+        gameManager.OnPiecePlaced(piece);
     }
 
     Cell GetCellUnderBlock(Block block)
@@ -116,7 +122,7 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         {
             Block b = blocks[i];
             cellsUnderBlocks[i].Place(b);
-            gameManager.Score++;
+            gameManager.score++;
         }
     }
 
@@ -178,7 +184,46 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         if (!c.Empty)
         {
             c.Clear();
-            gameManager.Score++;
+            gameManager.score++;
+        }
+    }
+
+    public BoardState Export()
+    {
+        BoardState state = new BoardState(size);
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                state.filledCells[i][j] = !cells[i][j].Empty;
+            }
+        }
+
+        return state;
+    }
+
+    public void Import(BoardState state)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                Cell c = cells[i][j];
+
+                if (state.filledCells[i][j])
+                {
+                    if (c.Empty)
+                    {
+                        Block b = Instantiate(blockPrefab);
+                        c.Place(b);
+                    }
+                }
+                else
+                {
+                    c.Clear();
+                }
+            }
         }
     }
 }

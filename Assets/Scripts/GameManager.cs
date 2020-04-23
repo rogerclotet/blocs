@@ -5,24 +5,27 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public Piece piecePrefab;
-    public Block blockPrefab;
-    public GameObject emptyBlockPrefab;
-    public PieceDefinition[] pieceDefinitions;
-    public Canvas canvas;
     public Text scoreText;
+    public Board board;
+    public NextPieces nextPieces;
+    public int score;
 
-    public int Score { get; set; }
-
-    private int emptySlots = 0;
+    private GameState gameState;
     private int displayedScore;
     private float lastScoreUpdate;
 
-    private const int slotsAmount = 3;
 
     void Start()
     {
-        GeneratePieces();
+        nextPieces.GeneratePieces();
+
+        PieceDefinition[] defs = new PieceDefinition[nextPieces.Definitions.Length];
+        for (int i = 0; i < defs.Length; i++)
+        {
+            PieceDefinition def = nextPieces.Definitions[i];
+            defs[i] = def == null ? null : def.Clone();
+        }
+        gameState = new GameState(score, board.Export(), defs, null);
     }
 
     void Update()
@@ -33,34 +36,37 @@ public class GameManager : MonoBehaviour
 
         lastScoreUpdate = now;
 
-        if (displayedScore < Score)
+        if (displayedScore != score)
         {
-            displayedScore++;
+            displayedScore += (int)Mathf.Sign(score - displayedScore);
         }
 
         scoreText.text = $"Score: {displayedScore.ToString()}";
     }
 
-    void GeneratePieces()
+    public void OnPiecePlaced(Piece piece)
     {
-        GameObject[] slots = GameObject.FindGameObjectsWithTag("PieceSlot");
-        Piece[] pieces = PieceFactory.CreatePieceSet(slotsAmount, pieceDefinitions, piecePrefab, blockPrefab, emptyBlockPrefab, canvas);
+        nextPieces.OnPiecePlaced(piece);
 
-        for (int i = 0; i < pieces.Length; i++)
+        PieceDefinition[] defs = new PieceDefinition[nextPieces.Definitions.Length];
+        for (int i = 0; i < defs.Length; i++)
         {
-            pieces[i].transform.SetParent(slots[i].transform);
-            pieces[i].transform.localScale = Vector3.one;
+            PieceDefinition def = nextPieces.Definitions[i];
+            defs[i] = def == null ? null : def.Clone();
         }
+
+        // TODO limit number of saved previous states
+        gameState = new GameState(score, board.Export(), defs, gameState);
     }
 
-    public void PiecePlaced()
+    public void Undo()
     {
-        emptySlots++;
+        if (gameState.previous == null) return;
 
-        if (emptySlots >= slotsAmount)
-        {
-            GeneratePieces();
-            emptySlots = 0;
-        }
+        gameState = gameState.previous;
+
+        score = gameState.score;
+        board.Import(gameState.board);
+        nextPieces.GeneratePieces(gameState.pieces);
     }
 }

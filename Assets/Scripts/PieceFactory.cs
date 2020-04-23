@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class PieceFactory
 {
-    public static Piece[] CreatePieceSet(
+    public static Piece[] CreateRandomPieceSet(
         int amount,
         PieceDefinition[] definitions,
         Piece piecePrefab,
@@ -16,13 +16,33 @@ public static class PieceFactory
     {
         PieceDefinition[] defs = definitions.OrderBy(x => Random.value).Take(amount).ToArray();
 
-        Piece[] pieces = new Piece[amount];
-        for (int i = 0; i < defs.Length; i++)
+        return CreatePieceSet(defs, piecePrefab, blockPrefab, emptyBlockPrefab, canvas);
+    }
+
+    public static Piece[] CreatePieceSet(
+        PieceDefinition[] definitions,
+        Piece piecePrefab,
+        Block blockPrefab,
+        GameObject emptyBlockPrefab,
+        Canvas canvas
+    )
+    {
+        Piece[] pieces = new Piece[definitions.Length];
+        for (int i = 0; i < definitions.Length; i++)
         {
             Piece p = GameObject.Instantiate(piecePrefab);
-            p.Init(defs[i], blockPrefab, emptyBlockPrefab);
-            p.canvas = canvas;
-            pieces[i] = p;
+            PieceDefinition def = definitions[i];
+
+            if (def == null)
+            {
+                pieces[i] = null;
+            }
+            else
+            {
+                p.Init(i, def, blockPrefab, emptyBlockPrefab);
+                p.canvas = canvas;
+                pieces[i] = p;
+            }
         }
 
         return pieces;
