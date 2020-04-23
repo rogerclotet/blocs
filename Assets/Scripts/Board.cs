@@ -20,7 +20,7 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
 
     void Awake()
     {
-        Transform parentGrid = GetComponentInChildren<GridLayoutGroup>().transform;
+        Transform parentGrid = GameObject.FindGameObjectWithTag("CellGrid").transform;
 
         cells = new Cell[size][];
         for (int i = 0; i < size; i++)

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Cell
   - PieceSlot
+  - CellGrid
   layers:
   - Default
   - TransparentFX
