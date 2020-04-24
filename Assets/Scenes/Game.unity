@@ -1928,6 +1928,7 @@ MonoBehaviour:
   highScore: 0
   postGameOverlay: {fileID: 1288944647}
   postGameText: {fileID: 1982031122}
+  undoButton: {fileID: 933386864}
 --- !u!1 &437608907
 GameObject:
   m_ObjectHideFlags: 0

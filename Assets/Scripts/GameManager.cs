@@ -15,13 +15,14 @@ public class GameManager : MonoBehaviour
     public int highScore;
     public GameObject postGameOverlay;
     public Text postGameText;
+    public Button undoButton;
 
     private GameState gameState;
     private int displayedScore;
     private int displayedHighScore;
     private float lastScoreUpdate;
     private bool isNewHighScore = false;
-
+    private int undoTimes = 0;
 
     void Start()
     {
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
             defs[i] = def == null ? null : def.Clone();
         }
         gameState = new GameState(score, board.Export(), defs, nextPieces.RandomState, null);
+
+        UpdateUndoButton();
     }
 
     void Update()
@@ -82,11 +85,25 @@ public class GameManager : MonoBehaviour
         SaveGame();
 
         CheckPossibleMoves();
+
+        if (undoTimes > 0)
+        {
+            undoTimes--;
+        }
+        UpdateUndoButton();
+    }
+
+    void UpdateUndoButton()
+    {
+        Debug.Log("Updating undo button " + gameState.previous);
+
+        undoButton.gameObject.SetActive(undoTimes < 3 && gameState.previous != null);
     }
 
     public void Undo()
     {
         if (gameState.previous == null) return;
+        if (undoTimes > 3) return;
 
         gameState = gameState.previous;
 
@@ -94,6 +111,9 @@ public class GameManager : MonoBehaviour
         board.Import(gameState.board);
         nextPieces.GeneratePieces(gameState.pieces);
         nextPieces.RandomState = gameState.randomState;
+
+        undoTimes++;
+        UpdateUndoButton();
     }
 
     void CheckPossibleMoves()
