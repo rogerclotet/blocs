@@ -12,7 +12,7 @@ public class Cell : MonoBehaviour
     {
         get
         {
-            return block == null;
+            return block == null || !block.Active;
         }
     }
 

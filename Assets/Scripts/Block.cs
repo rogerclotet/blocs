@@ -5,8 +5,15 @@ using UnityEngine.UI;
 
 public class Block : MonoBehaviour
 {
+    public bool Active { get; protected set; }
+
     private const float returnSpeed = 10;
     private bool movingToParent;
+
+    void Start()
+    {
+        Active = true;
+    }
 
     void Update()
     {
@@ -30,6 +37,8 @@ public class Block : MonoBehaviour
 
     public void Clear()
     {
+        Active = false;
+
         Animator animator = GetComponent<Animator>();
         animator.Play("BlockDisappear");
     }
