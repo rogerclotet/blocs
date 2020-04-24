@@ -21,7 +21,6 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     private CanvasGroup canvasGroup;
     private Transform parentToReturnTo;
     private bool dragEnabled = true;
-    private float scaleMultiplier;
 
     private const float returnSpeed = 10;
 
@@ -29,7 +28,6 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     {
         canvasGroup = GetComponent<CanvasGroup>();
         parentToReturnTo = transform.parent;
-        scaleMultiplier = Screen.currentResolution.width / 1080;
     }
 
     public void Init(int slot, PieceDefinition definition, Block blockPrefab, GameObject emptyBlockPrefab)
@@ -109,7 +107,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
         transform.position = new Vector3(
             eventData.position.x,
-            eventData.position.y + 150 * scaleMultiplier + 20 * Definition.rows * scaleMultiplier,
+            eventData.position.y + 100 + 10 * Definition.rows,
             0
         );
     }
