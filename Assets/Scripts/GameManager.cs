@@ -95,8 +95,6 @@ public class GameManager : MonoBehaviour
 
     void UpdateUndoButton()
     {
-        Debug.Log("Updating undo button " + gameState.previous);
-
         undoButton.gameObject.SetActive(undoTimes < 3 && gameState.previous != null);
     }
 

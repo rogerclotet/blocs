@@ -5,16 +5,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class Board : MonoBehaviour, IDropHandler
 {
     public GameManager gameManager;
     public EventSystem eventSystem;
     public Cell cellPrefab;
     public Block blockPrefab;
+    public GraphicRaycaster raycaster;
 
     private Cell[][] cells;
-    private GameObject dragging;
-    private GraphicRaycaster raycaster;
 
     private const int size = 10;
 
@@ -45,31 +44,17 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
 
     void Update()
     {
-        if (dragging != null)
-        {
-            // TODO If dragging, highlight legal positions
-        }
-    }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (eventData.pointerDrag == null) return;
-
-        dragging = eventData.pointerDrag;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        dragging = null;
-
-        // TODO Remove highlight
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag == null) return; // TODO check it's actually a piece?
+        if (eventData.pointerDrag == null) return;
 
-        Block[] blocks = dragging.GetComponentsInChildren<Block>();
+        Piece piece = eventData.pointerDrag.GetComponent<Piece>();
+        if (piece == null) return;
+
+        Block[] blocks = piece.GetComponentsInChildren<Block>();
         Cell[] cellsUnderBlocks = new Cell[blocks.Length];
         for (int i = 0; i < blocks.Length; i++)
         {
@@ -87,8 +72,6 @@ public class Board : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointer
         PlaceBlocksInCells(blocks, cellsUnderBlocks);
 
         RemoveCompleteLines();
-
-        Piece piece = dragging.GetComponent<Piece>();
 
         Destroy(eventData.pointerDrag);
 
