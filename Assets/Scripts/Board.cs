@@ -42,11 +42,6 @@ public class Board : MonoBehaviour, IDropHandler
         raycaster = GetComponent<GraphicRaycaster>();
     }
 
-    void Update()
-    {
-
-    }
-
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData.pointerDrag == null) return;

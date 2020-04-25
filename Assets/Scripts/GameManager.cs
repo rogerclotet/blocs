@@ -43,6 +43,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        UpdateScoreText();
+    }
+
+    void UpdateScoreText()
+    {
+        if (displayedHighScore == score)
+        {
+            return;
+        }
+
         float now = Time.realtimeSinceStartup;
 
         if (now < lastScoreUpdate + 0.05f) return;
