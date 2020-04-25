@@ -21,6 +21,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     private CanvasGroup canvasGroup;
     private Transform parentToReturnTo;
     private bool dragEnabled = true;
+    private int cellSize;
 
     private const float returnSpeed = 10;
 
@@ -28,6 +29,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     {
         canvasGroup = GetComponent<CanvasGroup>();
         parentToReturnTo = transform.parent;
+        cellSize = Camera.main.scaledPixelWidth / 10;
     }
 
     public void Init(int slot, PieceDefinition definition, Block blockPrefab, GameObject emptyBlockPrefab)
@@ -107,7 +109,7 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
         transform.position = new Vector3(
             eventData.position.x,
-            eventData.position.y + 100 + 10 * Definition.rows,
+            eventData.position.y + (Definition.rows / 2f + 2) * cellSize,
             0
         );
     }
