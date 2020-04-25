@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -23,7 +20,14 @@ public class GameManager : MonoBehaviour
     {
         previousStates = new List<GameState>();
 
-        LoadGame();
+        if (GameModeSelector.Selected == GameMode.Continue)
+        {
+            LoadGame();
+        }
+        else
+        {
+            LoadHighScore();
+        }
 
         nextPieces.GeneratePieces();
 
@@ -132,56 +136,62 @@ public class GameManager : MonoBehaviour
         }
 
         postGameOverlay.SetActive(true);
+
+        // Save game over state
+        gameState = null;
+        previousStates = new List<GameState>();
+        undoTimes = 0;
     }
 
     void SaveGame()
     {
-        scoreManager.Save(ref gameState);
+        if (gameState != null)
+        {
+            scoreManager.Save(ref gameState);
+        }
+
         SaveData saveData = new SaveData()
         {
+            highScore = scoreManager.HighScore,
             state = gameState,
             previousStates = previousStates.ToArray(),
             undoTimes = undoTimes,
         };
 
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.OpenWrite(Application.persistentDataPath + "/save.blc");
-        bf.Serialize(file, saveData);
-        file.Close();
+        SaveGameStorage.SaveGame(saveData);
     }
 
     void LoadGame()
     {
-        BinaryFormatter bf = new BinaryFormatter();
+        SaveData saveData = SaveGameStorage.LoadGame();
 
-        try
+        if (saveData.state != null)
         {
-            FileStream file = File.OpenRead(Application.persistentDataPath + "/save.blc");
-            SaveData saveData = (SaveData)bf.Deserialize(file);
-            file.Close();
-
-            if (saveData.state != null)
-            {
-                gameState = saveData.state;
-                board.Import(saveData.state.board);
-                scoreManager.Load(saveData.state);
-            }
-            else
-            {
-                Debug.Log("Incompatible save file");
-                return;
-            }
-
-            if (saveData.previousStates != null)
-            {
-                previousStates = new List<GameState>(saveData.previousStates);
-            }
-
-            undoTimes = saveData.undoTimes;
+            gameState = saveData.state;
+            board.Import(saveData.state.board);
+            scoreManager.Load(saveData.state);
         }
-        catch (FileNotFoundException)
+        else
         {
-            Debug.Log("Save game not found");
+            Debug.Log("Incompatible save file");
+            return;
+        }
+
+        if (saveData.previousStates != null)
+        {
+            previousStates = new List<GameState>(saveData.previousStates);
+        }
+
+        undoTimes = saveData.undoTimes;
+    }
+
+    void LoadHighScore()
+    {
+        SaveData saveData = SaveGameStorage.LoadGame();
+
+        if (saveData.state != null)
+        {
+            scoreManager.LoadHighScore(saveData.state);
         }
     }
 
@@ -194,5 +204,10 @@ public class GameManager : MonoBehaviour
         SaveGame();
 
         SceneManager.LoadScene("Game");
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

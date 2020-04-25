@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
@@ -12,6 +13,11 @@ public class ScoreManager : MonoBehaviour
     private int displayedScore;
     private int displayedHighScore;
     private float lastScoreUpdate;
+
+    void Start()
+    {
+        UpdateScoreText();
+    }
 
     void Update()
     {
@@ -79,6 +85,14 @@ public class ScoreManager : MonoBehaviour
         HighScore = state.highScore;
 
         displayedScore = Score;
+        displayedHighScore = HighScore;
+
+        UpdateScoreText();
+    }
+
+    internal void LoadHighScore(GameState state)
+    {
+        HighScore = state.highScore;
         displayedHighScore = HighScore;
 
         UpdateScoreText();
