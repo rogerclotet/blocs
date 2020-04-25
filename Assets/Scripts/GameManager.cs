@@ -8,91 +8,47 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public Text scoreText;
     public Board board;
+    public ScoreManager scoreManager;
     public NextPieces nextPieces;
-    public int score;
-    public int highScore;
     public GameObject postGameOverlay;
     public Text postGameText;
     public Button undoButton;
 
     private GameState gameState;
-    private int displayedScore;
-    private int displayedHighScore;
-    private float lastScoreUpdate;
-    private bool isNewHighScore = false;
     private int undoTimes = 0;
+    private List<GameState> previousStates;
 
     void Start()
     {
+        previousStates = new List<GameState>();
+
         LoadGame();
 
         nextPieces.GeneratePieces();
 
-        PieceDefinition[] defs = new PieceDefinition[nextPieces.Definitions.Length];
+        PieceDefinitionData[] defs = new PieceDefinitionData[nextPieces.Definitions.Length];
         for (int i = 0; i < defs.Length; i++)
         {
             PieceDefinition def = nextPieces.Definitions[i];
-            defs[i] = def == null ? null : def.Clone();
+            defs[i] = def == null ? null : def.Data();
         }
-        gameState = new GameState(score, board.Export(), defs, nextPieces.RandomState, null);
+        gameState = new GameState()
+        {
+            score = scoreManager.Score,
+            board = board.Export(),
+            pieces = defs,
+            randomState = nextPieces.RandomState,
+        };
 
         UpdateUndoButton();
-    }
-
-    void Update()
-    {
-        UpdateScoreText();
-    }
-
-    void UpdateScoreText()
-    {
-        if (displayedHighScore == score)
-        {
-            return;
-        }
-
-        float now = Time.realtimeSinceStartup;
-
-        if (now < lastScoreUpdate + 0.05f) return;
-
-        lastScoreUpdate = now;
-
-        if (displayedScore != score)
-        {
-            displayedScore += (int)Mathf.Sign(score - displayedScore);
-        }
-
-        if (displayedHighScore != highScore)
-        {
-            displayedHighScore += (int)Mathf.Sign(highScore - displayedHighScore);
-        }
-
-        scoreText.text = $"Punts: {displayedScore.ToString()}\nRécord: {displayedHighScore.ToString()}";
     }
 
     public void OnPiecePlaced(Piece piece)
     {
         nextPieces.OnPiecePlaced(piece);
 
-        PieceDefinition[] defs = new PieceDefinition[nextPieces.Definitions.Length];
-        for (int i = 0; i < defs.Length; i++)
-        {
-            PieceDefinition def = nextPieces.Definitions[i];
-            defs[i] = def == null ? null : def.Clone();
-        }
-
-        // TODO limit number of saved previous states
-        gameState = new GameState(score, board.Export(), defs, nextPieces.RandomState, gameState);
-
-        if (score > highScore)
-        {
-            highScore = score;
-            isNewHighScore = true;
-        }
-
-        SaveGame();
+        UpdateGameState();
 
         CheckPossibleMoves();
 
@@ -101,27 +57,62 @@ public class GameManager : MonoBehaviour
             undoTimes--;
         }
         UpdateUndoButton();
+
+        SaveGame();
+    }
+
+    void UpdateGameState()
+    {
+        PieceDefinitionData[] defs = new PieceDefinitionData[nextPieces.Definitions.Length];
+        for (int i = 0; i < defs.Length; i++)
+        {
+            PieceDefinition def = nextPieces.Definitions[i];
+            defs[i] = def == null ? null : def.Data();
+        }
+
+        if (previousStates.Count > 2)
+        {
+            previousStates.RemoveAt(0);
+        }
+        previousStates.Add(gameState);
+
+        gameState = new GameState()
+        {
+            score = scoreManager.Score,
+            board = board.Export(),
+            pieces = defs,
+            randomState = nextPieces.RandomState
+        };
     }
 
     void UpdateUndoButton()
     {
-        undoButton.gameObject.SetActive(undoTimes < 3 && gameState.previous != null);
+        undoButton.gameObject.SetActive(undoTimes < 3 && previousStates.Count > 0);
     }
 
     public void Undo()
     {
-        if (gameState.previous == null) return;
+        if (previousStates.Count == 0) return;
         if (undoTimes > 3) return;
 
-        gameState = gameState.previous;
+        gameState = previousStates[previousStates.Count - 1];
+        previousStates.RemoveAt(previousStates.Count - 1);
 
-        score = gameState.score;
+        scoreManager.Load(gameState);
         board.Import(gameState.board);
-        nextPieces.GeneratePieces(gameState.pieces);
+
+        PieceDefinition[] pieces = new PieceDefinition[gameState.pieces.Length];
+        for (int i = 0; i < gameState.pieces.Length; i++)
+        {
+            pieces[i] = gameState.pieces[i] == null ? null : gameState.pieces[i].ToDefinition();
+        }
+        nextPieces.GeneratePieces(pieces);
         nextPieces.RandomState = gameState.randomState;
 
         undoTimes++;
         UpdateUndoButton();
+
+        SaveGame();
     }
 
     void CheckPossibleMoves()
@@ -134,8 +125,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        postGameText.text = $"has aconseguit\n{score} punts!";
-        if (isNewHighScore)
+        postGameText.text = $"has aconseguit\n{scoreManager.Score} punts!";
+        if (scoreManager.IsNewHighScore)
         {
             postGameText.text += $"\n\n<color=#A4C54F>nou récord!</color>";
         }
@@ -145,7 +136,14 @@ public class GameManager : MonoBehaviour
 
     void SaveGame()
     {
-        SaveData saveData = new SaveData() { highScore = highScore };
+        scoreManager.Save(ref gameState);
+        SaveData saveData = new SaveData()
+        {
+            state = gameState,
+            previousStates = previousStates.ToArray(),
+            undoTimes = undoTimes,
+        };
+
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.OpenWrite(Application.persistentDataPath + "/save.blc");
         bf.Serialize(file, saveData);
@@ -162,8 +160,24 @@ public class GameManager : MonoBehaviour
             SaveData saveData = (SaveData)bf.Deserialize(file);
             file.Close();
 
-            highScore = saveData.highScore;
-            displayedHighScore = highScore;
+            if (saveData.state != null)
+            {
+                gameState = saveData.state;
+                board.Import(saveData.state.board);
+                scoreManager.Load(saveData.state);
+            }
+            else
+            {
+                Debug.Log("Incompatible save file");
+                return;
+            }
+
+            if (saveData.previousStates != null)
+            {
+                previousStates = new List<GameState>(saveData.previousStates);
+            }
+
+            undoTimes = saveData.undoTimes;
         }
         catch (FileNotFoundException)
         {
@@ -173,6 +187,12 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        previousStates.Clear();
+        gameState = new GameState();
+        undoTimes = 0;
+
+        SaveGame();
+
         SceneManager.LoadScene("Game");
     }
 }

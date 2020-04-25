@@ -8,12 +8,13 @@ using UnityEngine.UI;
 public class Board : MonoBehaviour, IDropHandler
 {
     public GameManager gameManager;
+    public ScoreManager scoreManager;
     public EventSystem eventSystem;
     public Cell cellPrefab;
     public Block blockPrefab;
-    public GraphicRaycaster raycaster;
 
     private Cell[][] cells;
+    private GraphicRaycaster raycaster;
 
     private const int size = 10;
 
@@ -127,12 +128,15 @@ public class Board : MonoBehaviour, IDropHandler
 
     void PlaceBlocksInCells(Block[] blocks, Cell[] cellsUnderBlocks)
     {
+        int scoreToAdd = 0;
         for (int i = 0; i < blocks.Length; i++)
         {
             Block b = blocks[i];
             cellsUnderBlocks[i].Place(b);
-            gameManager.score++;
+            scoreToAdd++;
         }
+
+        scoreManager.AddPiece(scoreToAdd);
     }
 
     void RemoveCompleteLines()
@@ -173,28 +177,44 @@ public class Board : MonoBehaviour, IDropHandler
 
     void ClearRow(int row)
     {
+        int pointsToAdd = 0;
         for (int j = 0; j < size; j++)
         {
-            ClearCell(row, j);
+            bool cleared = ClearCell(row, j);
+            if (cleared)
+            {
+                pointsToAdd++;
+            }
         }
+
+        scoreManager.AddClearedLine(pointsToAdd);
     }
 
     void ClearColumn(int column)
     {
+        int pointsToAdd = 0;
         for (int i = 0; i < size; i++)
         {
-            ClearCell(i, column);
+            bool cleared = ClearCell(i, column);
+            if (cleared)
+            {
+                pointsToAdd++;
+            }
         }
+
+        scoreManager.AddClearedLine(pointsToAdd);
     }
 
-    void ClearCell(int row, int column)
+    bool ClearCell(int row, int column)
     {
         Cell c = cells[row][column];
         if (!c.Empty)
         {
             c.Clear();
-            gameManager.score++;
+            return true;
         }
+
+        return false;
     }
 
     public BoardState Export()

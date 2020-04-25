@@ -1942,11 +1942,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 119c05c59968d0047b3e8c4dee99751f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 25641627}
   board: {fileID: 1959689692}
+  scoreManager: {fileID: 1216151925}
   nextPieces: {fileID: 263955240}
-  score: 0
-  highScore: 0
   postGameOverlay: {fileID: 1288944647}
   postGameText: {fileID: 1982031122}
   undoButton: {fileID: 933386864}
@@ -2181,7 +2179,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &530813799
 GameObject:
@@ -2351,7 +2349,7 @@ RectTransform:
   - {fileID: 2008837960}
   - {fileID: 1288944648}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5124,6 +5122,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199267245}
   m_CullTransparentMesh: 0
+--- !u!1 &1216151924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1216151926}
+  - component: {fileID: 1216151925}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1216151925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216151924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db384eb7339f6b94cacdcb3f6250e23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 25641627}
+  IsNewHighScore: 0
+--- !u!4 &1216151926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216151924}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 185.10454, y: 512.27203, z: -24.354048}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232784427
 GameObject:
   m_ObjectHideFlags: 0
@@ -5828,7 +5871,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1312952989
 GameObject:
@@ -8748,6 +8791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 394781419}
+  scoreManager: {fileID: 1216151925}
   eventSystem: {fileID: 1312881590}
   cellPrefab: {fileID: 4981162913158607876, guid: 2110a8b4cb76af844852abf6132e0097, type: 3}
   blockPrefab: {fileID: 639877414439898060, guid: 4ec8a33704611a14cb6a9bdadb46f0ce, type: 3}
