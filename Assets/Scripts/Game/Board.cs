@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -191,11 +189,12 @@ public class Board : MonoBehaviour, IDropHandler
         }
 
         pointsToAdd *= multiplier;
-        multiplier++;
 
         Vector2 pos = cells[row][4].transform.position + (cells[row][5].transform.position - cells[row][4].transform.position) / 2;
 
-        scoreManager.AddClearedLine(pointsToAdd, pos);
+        scoreManager.AddClearedLine(pointsToAdd, pos, multiplier);
+
+        multiplier++;
     }
 
     void ClearColumn(int column)
@@ -211,11 +210,12 @@ public class Board : MonoBehaviour, IDropHandler
         }
 
         pointsToAdd *= multiplier;
-        multiplier++;
 
         Vector2 pos = cells[4][column].transform.position + (cells[5][column].transform.position - cells[4][column].transform.position) / 2;
 
-        scoreManager.AddClearedLine(pointsToAdd, pos);
+        scoreManager.AddClearedLine(pointsToAdd, pos, multiplier);
+
+        multiplier++;
     }
 
     bool ClearCell(int row, int column)

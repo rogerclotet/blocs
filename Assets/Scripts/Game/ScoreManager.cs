@@ -67,19 +67,26 @@ public class ScoreManager : MonoBehaviour
         );
     }
 
-    public void AddClearedLine(int score, Vector2 position)
+    public void AddClearedLine(int score, Vector2 position, int multiplier)
     {
         Score += score;
 
         UpdateHighScore();
 
+        int sizeVariation = score * 2;
+
         Color col;
         ColorUtility.TryParseHtmlString("#A4C54F", out col);
 
-        int sizeVariation = score * 2;
+        string text = "";
+        if (multiplier > 1)
+        {
+            text += $"<color=#8aa838>x{multiplier}</color> ";
+        }
+        text += $"+{score}";
 
         floatingTextManager.Show(
-            $"+{score}",
+            text,
             position,
             col,
             sizeVariation
