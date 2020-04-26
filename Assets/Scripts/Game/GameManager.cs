@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
         };
 
         UpdateUndoButton();
+
+        SaveGame();
     }
 
     public void OnPiecePlaced(Piece piece)
@@ -148,6 +150,13 @@ public class GameManager : MonoBehaviour
     {
         if (HasPossibleMoves()) return true;
 
+        GameOver();
+
+        return false;
+    }
+
+    void GameOver()
+    {
         postGameText.text = $"has aconseguit\n{scoreManager.Score} punts!";
         if (scoreManager.IsNewHighScore)
         {
@@ -162,8 +171,6 @@ public class GameManager : MonoBehaviour
         undoTimes = 0;
 
         SaveGame();
-
-        return false;
     }
 
     void SaveGame()

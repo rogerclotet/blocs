@@ -25,7 +25,7 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        if (displayedHighScore == Score)
+        if (displayedScore == Score && displayedHighScore == HighScore)
         {
             return;
         }
