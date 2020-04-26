@@ -43,12 +43,12 @@ public class ScoreManager : MonoBehaviour
 
         if (displayedScore != Score)
         {
-            displayedScore = Mathf.RoundToInt(Mathf.Lerp(displayedScore, Score, Time.deltaTime * 60f));
+            displayedScore = Mathf.CeilToInt(Mathf.Lerp(displayedScore, Score, Time.deltaTime * 10));
         }
 
         if (displayedHighScore != HighScore)
         {
-            displayedHighScore = Mathf.RoundToInt(Mathf.Lerp(displayedHighScore, HighScore, Time.deltaTime * 60f));
+            displayedHighScore = Mathf.CeilToInt(Mathf.Lerp(displayedHighScore, HighScore, Time.deltaTime * 10));
         }
 
         scoreText.text = $"Punts: {displayedScore.ToString()}\nRécord: {displayedHighScore.ToString()}";
