@@ -9,7 +9,7 @@ public class MainMenuController : MonoBehaviour
     void Start()
     {
         SaveData saveData = SaveGameStorage.LoadGame();
-        if (saveData.state == null)
+        if (saveData == null || saveData.state == null)
         {
             continueButton.SetActive(false);
         }
