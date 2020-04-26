@@ -101,6 +101,8 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
             RectTransform rt = block.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(100, 100); // TODO un-hardcode this
         }
+
+        GetComponent<CanvasGroup>().alpha = 0.8f;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -131,6 +133,8 @@ public class Piece : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
         }
 
         state = State.Idle;
+
+        GetComponent<CanvasGroup>().alpha = 1f;
     }
 
     public void SetFinalPosition(Transform parentToGo)
