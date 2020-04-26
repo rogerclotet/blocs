@@ -50,11 +50,20 @@ public class GameManager : MonoBehaviour
 
     public void OnPiecePlaced(Piece piece)
     {
-        nextPieces.OnPiecePlaced(piece);
+        if (nextPieces.Empty)
+        {
+            do
+            {
+                nextPieces.OnPiecePlaced(piece);
+            } while (!HasPossibleMoves());
+        }
+        else
+        {
+            nextPieces.OnPiecePlaced(piece);
+            CheckPossibleMoves();
+        }
 
         UpdateGameState();
-
-        CheckPossibleMoves();
 
         if (undoTimes > 0)
         {
@@ -119,15 +128,22 @@ public class GameManager : MonoBehaviour
         SaveGame();
     }
 
-    void CheckPossibleMoves()
+    bool HasPossibleMoves()
     {
         foreach (PieceDefinition pieceDefinition in nextPieces.Definitions)
         {
             if (pieceDefinition != null && board.IsPiecePlaceable(pieceDefinition))
             {
-                return;
+                return true;
             }
         }
+
+        return false;
+    }
+
+    void CheckPossibleMoves()
+    {
+        if (HasPossibleMoves()) return;
 
         postGameText.text = $"has aconseguit\n{scoreManager.Score} punts!";
         if (scoreManager.IsNewHighScore)
