@@ -33,6 +33,9 @@ public class Block : MonoBehaviour
     {
         transform.SetParent(cell.transform);
         movingToParent = true;
+
+        Animator animator = GetComponent<Animator>();
+        animator.Play("BlockPlace");
     }
 
     public void Clear()
