@@ -15,6 +15,7 @@ public class Board : MonoBehaviour, IDropHandler
 
     private Cell[][] cells;
     private GraphicRaycaster raycaster;
+    private int multiplier = 1;
 
     private const int size = 10;
 
@@ -68,6 +69,8 @@ public class Board : MonoBehaviour, IDropHandler
         PlaceBlocksInCells(piece, blocks, cellsUnderBlocks);
 
         RemoveCompleteLines();
+
+        multiplier = 1;
 
         Destroy(eventData.pointerDrag);
 
@@ -187,6 +190,9 @@ public class Board : MonoBehaviour, IDropHandler
             }
         }
 
+        pointsToAdd *= multiplier;
+        multiplier++;
+
         Vector2 pos = cells[row][4].transform.position + (cells[row][5].transform.position - cells[row][4].transform.position) / 2;
 
         scoreManager.AddClearedLine(pointsToAdd, pos);
@@ -203,6 +209,9 @@ public class Board : MonoBehaviour, IDropHandler
                 pointsToAdd++;
             }
         }
+
+        pointsToAdd *= multiplier;
+        multiplier++;
 
         Vector2 pos = cells[4][column].transform.position + (cells[5][column].transform.position - cells[4][column].transform.position) / 2;
 

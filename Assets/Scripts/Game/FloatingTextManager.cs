@@ -6,7 +6,7 @@ public class FloatingTextManager : MonoBehaviour
     public FloatingText prefab;
     public Canvas canvas;
 
-    public void Show(string text, Vector2 position, Color color)
+    public void Show(string text, Vector2 position, Color color, int sizeVariation = 0)
     {
         FloatingText ft = Instantiate(prefab);
         ft.transform.SetParent(canvas.transform);
@@ -16,5 +16,6 @@ public class FloatingTextManager : MonoBehaviour
         Text t = ft.GetComponentInChildren<Text>();
         t.text = text;
         t.color = color;
+        t.fontSize += sizeVariation;
     }
 }

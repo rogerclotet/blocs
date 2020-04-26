@@ -76,10 +76,13 @@ public class ScoreManager : MonoBehaviour
         Color col;
         ColorUtility.TryParseHtmlString("#A4C54F", out col);
 
+        int sizeVariation = score * 2;
+
         floatingTextManager.Show(
             $"+{score}",
             position,
-            col
+            col,
+            sizeVariation
         );
     }
 
