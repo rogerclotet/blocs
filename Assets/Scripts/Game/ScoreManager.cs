@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour
 {
     public Text scoreText;
+    public FloatingTextManager floatingTextManager;
 
     public int Score { get; set; }
     public int HighScore { get; private set; }
@@ -13,10 +14,13 @@ public class ScoreManager : MonoBehaviour
     private int displayedScore;
     private int displayedHighScore;
     private float lastScoreUpdate;
+    private float cellSize;
 
     void Start()
     {
         UpdateScoreText();
+
+        cellSize = Camera.main.scaledPixelWidth / 10;
     }
 
     void Update()
@@ -50,18 +54,33 @@ public class ScoreManager : MonoBehaviour
         scoreText.text = $"Punts: {displayedScore.ToString()}\nRécord: {displayedHighScore.ToString()}";
     }
 
-    public void AddPiece(int score)
+    public void AddPiece(Piece piece, int score)
     {
         Score += score;
 
         UpdateHighScore();
+
+        floatingTextManager.Show(
+            $"+{score}",
+            piece.transform.position + new Vector3(0, piece.Definition.rows / 2f * cellSize),
+            Color.white
+        );
     }
 
-    public void AddClearedLine(int score)
+    public void AddClearedLine(int score, Vector2 position)
     {
         Score += score;
 
         UpdateHighScore();
+
+        Color col;
+        ColorUtility.TryParseHtmlString("#A4C54F", out col);
+
+        floatingTextManager.Show(
+            $"+{score}",
+            position,
+            col
+        );
     }
 
     void UpdateHighScore()

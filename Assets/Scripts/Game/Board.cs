@@ -65,7 +65,7 @@ public class Board : MonoBehaviour, IDropHandler
             cellsUnderBlocks[i] = cell;
         }
 
-        PlaceBlocksInCells(blocks, cellsUnderBlocks);
+        PlaceBlocksInCells(piece, blocks, cellsUnderBlocks);
 
         RemoveCompleteLines();
 
@@ -126,7 +126,7 @@ public class Board : MonoBehaviour, IDropHandler
         return null;
     }
 
-    void PlaceBlocksInCells(Block[] blocks, Cell[] cellsUnderBlocks)
+    void PlaceBlocksInCells(Piece piece, Block[] blocks, Cell[] cellsUnderBlocks)
     {
         int scoreToAdd = 0;
         for (int i = 0; i < blocks.Length; i++)
@@ -136,7 +136,7 @@ public class Board : MonoBehaviour, IDropHandler
             scoreToAdd++;
         }
 
-        scoreManager.AddPiece(scoreToAdd);
+        scoreManager.AddPiece(piece, scoreToAdd);
     }
 
     void RemoveCompleteLines()
@@ -187,7 +187,9 @@ public class Board : MonoBehaviour, IDropHandler
             }
         }
 
-        scoreManager.AddClearedLine(pointsToAdd);
+        Vector2 pos = cells[row][4].transform.position + (cells[row][5].transform.position - cells[row][4].transform.position) / 2;
+
+        scoreManager.AddClearedLine(pointsToAdd, pos);
     }
 
     void ClearColumn(int column)
@@ -202,7 +204,9 @@ public class Board : MonoBehaviour, IDropHandler
             }
         }
 
-        scoreManager.AddClearedLine(pointsToAdd);
+        Vector2 pos = cells[4][column].transform.position + (cells[5][column].transform.position - cells[4][column].transform.position) / 2;
+
+        scoreManager.AddClearedLine(pointsToAdd, pos);
     }
 
     bool ClearCell(int row, int column)
