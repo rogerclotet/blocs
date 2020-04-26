@@ -112,9 +112,9 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreText();
     }
 
-    internal void LoadHighScore(GameState state)
+    internal void LoadHighScore(int highScore)
     {
-        HighScore = state.highScore;
+        HighScore = highScore;
         displayedHighScore = HighScore;
 
         UpdateScoreText();

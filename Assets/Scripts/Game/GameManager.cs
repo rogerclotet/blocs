@@ -163,6 +163,8 @@ public class GameManager : MonoBehaviour
 
     void LoadGame()
     {
+        Debug.Log("Loading game");
+
         SaveData saveData = SaveGameStorage.LoadGame();
 
         if (saveData.state != null)
@@ -189,10 +191,7 @@ public class GameManager : MonoBehaviour
     {
         SaveData saveData = SaveGameStorage.LoadGame();
 
-        if (saveData.state != null)
-        {
-            scoreManager.LoadHighScore(saveData.state);
-        }
+        scoreManager.LoadHighScore(saveData.highScore);
     }
 
     public void Restart()
