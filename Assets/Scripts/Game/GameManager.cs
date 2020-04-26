@@ -188,6 +188,12 @@ public class GameManager : MonoBehaviour
             previousStates = new List<GameState>(saveData.previousStates);
         }
 
+        if (saveData.highScore != 0)
+        {
+            // Not sure if necessary
+            scoreManager.LoadHighScore(saveData.highScore);
+        }
+
         undoTimes = saveData.undoTimes;
     }
 
