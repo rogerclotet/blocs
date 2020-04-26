@@ -200,6 +200,8 @@ public class GameManager : MonoBehaviour
         gameState = new GameState();
         undoTimes = 0;
 
+        GameModeSelector.Selected = GameMode.New;
+
         SaveGame();
 
         SceneManager.LoadScene("Game");
