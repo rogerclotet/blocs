@@ -27,23 +27,10 @@ public class GameManager : MonoBehaviour
         else
         {
             LoadHighScore();
+            nextPieces.GeneratePieces();
         }
 
-        nextPieces.GeneratePieces();
-
-        PieceDefinitionData[] defs = new PieceDefinitionData[nextPieces.Definitions.Length];
-        for (int i = 0; i < defs.Length; i++)
-        {
-            PieceDefinition def = nextPieces.Definitions[i];
-            defs[i] = def == null ? null : def.Data();
-        }
-        gameState = new GameState()
-        {
-            score = scoreManager.Score,
-            board = board.Export(),
-            pieces = defs,
-            randomState = nextPieces.RandomState,
-        };
+        UpdateGameState();
 
         UpdateUndoButton();
 
@@ -204,6 +191,14 @@ public class GameManager : MonoBehaviour
             gameState = saveData.state;
             board.Import(saveData.state.board);
             scoreManager.Load(saveData.state);
+
+            PieceDefinition[] pieces = new PieceDefinition[saveData.state.pieces.Length];
+            for (int i = 0; i < saveData.state.pieces.Length; i++)
+            {
+                pieces[i] = saveData.state.pieces[i] == null ? null : saveData.state.pieces[i].ToDefinition();
+            }
+            nextPieces.GeneratePieces(pieces);
+            nextPieces.RandomState = saveData.state.randomState;
         }
         else
         {
