@@ -60,7 +60,10 @@ public class GameManager : MonoBehaviour
         else
         {
             nextPieces.OnPiecePlaced(piece);
-            CheckPossibleMoves();
+            if (!CheckPossibleMoves())
+            {
+                return;
+            }
         }
 
         UpdateGameState();
@@ -141,9 +144,9 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    void CheckPossibleMoves()
+    bool CheckPossibleMoves()
     {
-        if (HasPossibleMoves()) return;
+        if (HasPossibleMoves()) return true;
 
         postGameText.text = $"has aconseguit\n{scoreManager.Score} punts!";
         if (scoreManager.IsNewHighScore)
@@ -157,6 +160,10 @@ public class GameManager : MonoBehaviour
         gameState = null;
         previousStates = new List<GameState>();
         undoTimes = 0;
+
+        SaveGame();
+
+        return false;
     }
 
     void SaveGame()
@@ -179,8 +186,6 @@ public class GameManager : MonoBehaviour
 
     void LoadGame()
     {
-        Debug.Log("Loading game");
-
         SaveData saveData = SaveGameStorage.LoadGame();
         if (saveData == null)
         {
