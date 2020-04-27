@@ -39,20 +39,20 @@ public class GameManager : MonoBehaviour
 
     public void OnPiecePlaced(Piece piece)
     {
+        nextPieces.OnPiecePlaced(piece);
+
         if (nextPieces.Empty)
         {
             do
             {
-                nextPieces.OnPiecePlaced(piece);
+                nextPieces.GeneratePieces();
             } while (!HasPossibleMoves());
         }
-        else
+        else if (!HasPossibleMoves())
         {
-            nextPieces.OnPiecePlaced(piece);
-            if (!CheckPossibleMoves())
-            {
-                return;
-            }
+            GameOver();
+
+            return;
         }
 
         UpdateGameState();
@@ -129,15 +129,6 @@ public class GameManager : MonoBehaviour
                 return true;
             }
         }
-
-        return false;
-    }
-
-    bool CheckPossibleMoves()
-    {
-        if (HasPossibleMoves()) return true;
-
-        GameOver();
 
         return false;
     }

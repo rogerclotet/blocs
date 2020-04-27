@@ -43,11 +43,6 @@ public class NextPieces : MonoBehaviour
     public void OnPiecePlaced(Piece piece)
     {
         Definitions[piece.Slot] = null;
-
-        if (Empty)
-        {
-            GeneratePieces();
-        }
     }
 
     public void GeneratePieces()
