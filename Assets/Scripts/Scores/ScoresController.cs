@@ -19,7 +19,7 @@ public class ScoresController : MonoBehaviour
         highScoreText.text = data.highScore.ToString();
 
         string scores = "";
-        for (int i = 0; i < 5 && i < data.scoreHistory.Length; i++)
+        for (int i = data.scoreHistory.Length - 1; i > 0 && i > data.scoreHistory.Length - 6; i--)
         {
             if (i != 0) scores += "\n";
             scores += data.scoreHistory[i].ToString();
