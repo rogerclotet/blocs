@@ -15,7 +15,7 @@ public class MainMenuController : MonoBehaviour
             continueButton.SetActive(false);
         }
 
-        if (saveData == null || saveData.highScore == 0 || saveData.scoreHistory == null)
+        if (saveData == null || saveData.highScore == 0 || saveData.history == null)
         {
             scoresButton.SetActive(false);
         }

@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
     public int Score { get; set; }
     public int HighScore { get; private set; }
     public bool IsNewHighScore { get; private set; }
+    public int Blocks { get; private set; }
 
     private int displayedScore;
     private int displayedHighScore;
@@ -67,6 +68,8 @@ public class ScoreManager : MonoBehaviour
             Color.white,
             sizeVariation
         );
+
+        Blocks += piece.Definition.blockPositions.Length;
     }
 
     public void AddClearedLine(int score, Vector2 position, int multiplier)

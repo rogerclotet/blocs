@@ -16,12 +16,13 @@ public class ScoresController : MonoBehaviour
             Debug.LogError("SaveData not found in scores!");
         }
 
-        highScoreText.text = data.highScore.ToString();
+        highScoreText.text = $"{data.highScore} ({data.highScoreBlocks} blocs)";
 
         string scores = "";
-        for (int i = data.scoreHistory.Length - 1; i > 0 && i > data.scoreHistory.Length - 6; i--)
+        for (int i = data.history.Length - 1; i >= 0 && i > data.history.Length - 6; i--)
         {
-            scores += data.scoreHistory[i].ToString() + "\n";
+            HistoryEntry entry = data.history[i];
+            scores += $"{entry.score} ({entry.blocks} blocs)\n";
         }
         scoreHistoryText.text = scores;
     }

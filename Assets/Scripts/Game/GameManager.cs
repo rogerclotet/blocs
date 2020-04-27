@@ -137,7 +137,9 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         int score = scoreManager.Score;
-        postGameText.text = $"has aconseguit\n{score} punts!";
+        int blocks = scoreManager.Blocks;
+
+        postGameText.text = $"has aconseguit\n{score} punts col·locant {blocks} blocs!";
         if (scoreManager.IsNewHighScore)
         {
             postGameText.text += $"\n\n<color=#A4C54F>nou récord!</color>";
@@ -150,10 +152,10 @@ public class GameManager : MonoBehaviour
         previousStates = new List<GameState>();
         undoTimes = 0;
 
-        SaveGame(score);
+        SaveGame(score, blocks);
     }
 
-    void SaveGame(int gameEndScore = 0)
+    void SaveGame(int gameEndScore = 0, int gameEndBlocks = 0)
     {
         if (gameState != null)
         {
@@ -165,7 +167,8 @@ public class GameManager : MonoBehaviour
         SaveData saveData = new SaveData()
         {
             highScore = scoreManager.HighScore,
-            scoreHistory = lastSaveData.scoreHistory,
+            highScoreBlocks = scoreManager.IsNewHighScore ? scoreManager.Blocks : lastSaveData.highScoreBlocks,
+            history = lastSaveData.history,
             state = gameState,
             previousStates = previousStates.ToArray(),
             undoTimes = undoTimes,
@@ -173,23 +176,23 @@ public class GameManager : MonoBehaviour
 
         if (gameEndScore != 0)
         {
-            List<int> scores;
-            if (lastSaveData != null && lastSaveData.scoreHistory != null)
+            List<HistoryEntry> entries;
+            if (lastSaveData != null && lastSaveData.history != null)
             {
-                scores = lastSaveData.scoreHistory.ToList();
-                if (scores.Count >= 10)
+                entries = lastSaveData.history.ToList();
+                if (entries.Count >= 10)
                 {
-                    scores.RemoveAt(0);
+                    entries.RemoveAt(0);
                 }
             }
             else
             {
-                scores = new List<int>();
+                entries = new List<HistoryEntry>();
             }
 
-            scores.Add(gameEndScore);
+            entries.Add(new HistoryEntry() { score = gameEndScore, blocks = gameEndBlocks });
 
-            saveData.scoreHistory = scores.ToArray();
+            saveData.history = entries.ToArray();
         }
 
         SaveGameStorage.SaveGame(saveData);
