@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
@@ -54,16 +53,19 @@ public class ScoreManager : MonoBehaviour
         scoreText.text = $"Punts: {displayedScore.ToString()}\nRécord: {displayedHighScore.ToString()}";
     }
 
-    public void AddPiece(Piece piece, int score)
+    public void AddPiece(Piece piece, int score, int multiplier)
     {
         Score += score;
 
         UpdateHighScore();
 
+        int sizeVariation = score * 2;
+
         floatingTextManager.Show(
             $"+{score}",
             piece.transform.position + new Vector3(0, piece.Definition.rows / 2f * cellSize),
-            Color.white
+            Color.white,
+            sizeVariation
         );
     }
 
@@ -81,7 +83,8 @@ public class ScoreManager : MonoBehaviour
         string text = "";
         if (multiplier > 1)
         {
-            text += $"<color=#8aa838>x{multiplier}</color> ";
+            string c = GetColor(multiplier);
+            text += $"<color={c}>x{multiplier}</color> ";
         }
         text += $"+{score}";
 
@@ -119,11 +122,26 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreText();
     }
 
-    internal void LoadHighScore(int highScore)
+    public void LoadHighScore(int highScore)
     {
         HighScore = highScore;
         displayedHighScore = HighScore;
 
         UpdateScoreText();
+    }
+
+    string GetColor(int multiplier)
+    {
+        if (multiplier < 3)
+        {
+            return "#49a93e";
+        }
+
+        if (multiplier < 5)
+        {
+            return "#bec71f";
+        }
+
+        return "#e98339";
     }
 }

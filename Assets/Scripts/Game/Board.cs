@@ -14,6 +14,7 @@ public class Board : MonoBehaviour, IDropHandler
     private Cell[][] cells;
     private GraphicRaycaster raycaster;
     private int multiplier = 1;
+    private int prevMultiplier = 1;
 
     private const int size = 10;
 
@@ -68,7 +69,11 @@ public class Board : MonoBehaviour, IDropHandler
 
         RemoveCompleteLines();
 
-        multiplier = 1;
+        if (prevMultiplier == multiplier)
+        {
+            multiplier = 1;
+        }
+        prevMultiplier = multiplier;
 
         Destroy(eventData.pointerDrag);
 
@@ -137,7 +142,9 @@ public class Board : MonoBehaviour, IDropHandler
             scoreToAdd++;
         }
 
-        scoreManager.AddPiece(piece, scoreToAdd);
+        scoreToAdd *= prevMultiplier;
+
+        scoreManager.AddPiece(piece, scoreToAdd, prevMultiplier);
     }
 
     void RemoveCompleteLines()
