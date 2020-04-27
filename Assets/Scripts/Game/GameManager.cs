@@ -160,9 +160,12 @@ public class GameManager : MonoBehaviour
             scoreManager.Save(ref gameState);
         }
 
+        SaveData lastSaveData = SaveGameStorage.LoadGame();
+
         SaveData saveData = new SaveData()
         {
             highScore = scoreManager.HighScore,
+            scoreHistory = lastSaveData.scoreHistory,
             state = gameState,
             previousStates = previousStates.ToArray(),
             undoTimes = undoTimes,
@@ -170,7 +173,6 @@ public class GameManager : MonoBehaviour
 
         if (gameEndScore != 0)
         {
-            SaveData lastSaveData = SaveGameStorage.LoadGame();
             List<int> scores;
             if (lastSaveData != null && lastSaveData.scoreHistory != null)
             {
