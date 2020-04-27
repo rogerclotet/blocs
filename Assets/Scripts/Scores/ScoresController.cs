@@ -21,8 +21,7 @@ public class ScoresController : MonoBehaviour
         string scores = "";
         for (int i = data.scoreHistory.Length - 1; i > 0 && i > data.scoreHistory.Length - 6; i--)
         {
-            if (i != 0) scores += "\n";
-            scores += data.scoreHistory[i].ToString();
+            scores += data.scoreHistory[i].ToString() + "\n";
         }
         scoreHistoryText.text = scores;
     }
