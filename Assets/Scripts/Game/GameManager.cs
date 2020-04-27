@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -135,7 +136,8 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        postGameText.text = $"has aconseguit\n{scoreManager.Score} punts!";
+        int score = scoreManager.Score;
+        postGameText.text = $"has aconseguit\n{score} punts!";
         if (scoreManager.IsNewHighScore)
         {
             postGameText.text += $"\n\n<color=#A4C54F>nou récord!</color>";
@@ -148,10 +150,10 @@ public class GameManager : MonoBehaviour
         previousStates = new List<GameState>();
         undoTimes = 0;
 
-        SaveGame();
+        SaveGame(score);
     }
 
-    void SaveGame()
+    void SaveGame(int gameEndScore = 0)
     {
         if (gameState != null)
         {
@@ -165,6 +167,28 @@ public class GameManager : MonoBehaviour
             previousStates = previousStates.ToArray(),
             undoTimes = undoTimes,
         };
+
+        if (gameEndScore != 0)
+        {
+            SaveData lastSaveData = SaveGameStorage.LoadGame();
+            List<int> scores;
+            if (lastSaveData != null && lastSaveData.scoreHistory != null)
+            {
+                scores = lastSaveData.scoreHistory.ToList();
+                if (scores.Count >= 10)
+                {
+                    scores.RemoveAt(0);
+                }
+            }
+            else
+            {
+                scores = new List<int>();
+            }
+
+            scores.Add(gameEndScore);
+
+            saveData.scoreHistory = scores.ToArray();
+        }
 
         SaveGameStorage.SaveGame(saveData);
     }

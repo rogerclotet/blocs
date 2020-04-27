@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     public GameObject continueButton;
+    public GameObject scoresButton;
 
     void Start()
     {
@@ -12,6 +13,11 @@ public class MainMenuController : MonoBehaviour
         if (saveData == null || saveData.state == null)
         {
             continueButton.SetActive(false);
+        }
+
+        if (saveData == null || saveData.highScore == 0 || saveData.scoreHistory == null)
+        {
+            scoresButton.SetActive(false);
         }
     }
 
@@ -25,6 +31,11 @@ public class MainMenuController : MonoBehaviour
     {
         GameModeSelector.Selected = GameMode.Continue;
         SceneManager.LoadScene("Game");
+    }
+
+    public void Scores()
+    {
+        SceneManager.LoadScene("Scores");
     }
 
     public void Exit()
