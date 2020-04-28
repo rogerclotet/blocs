@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateUndoButton()
     {
-        undoButton.gameObject.SetActive(undoTimes < 3 && previousStates.Count > 0);
+        undoButton.gameObject.SetActive(undoTimes < 3 && previousStates.Count > 1);
     }
 
     public void Undo()
