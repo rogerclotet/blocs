@@ -9513,8 +9513,8 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 0.5
-  m_Text: "has aconseguit\n9999 punts!\n\n<color=#A4C54F>nou r\xE9cord!</color>"
+    m_LineSpacing: 0.7
+  m_Text: "has aconseguit\n9999 punts\namb 999 blocs!\n\n<color=#A4C54F>nou r\xE9cord!</color>"
 --- !u!222 &1982031123
 CanvasRenderer:
   m_ObjectHideFlags: 0

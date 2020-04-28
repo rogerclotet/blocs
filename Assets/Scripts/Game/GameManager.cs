@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         int score = scoreManager.Score;
         int blocks = scoreManager.Blocks;
 
-        postGameText.text = $"has aconseguit\n{score} punts col·locant {blocks} blocs!";
+        postGameText.text = $"has aconseguit\n{score} punts\namb {blocks} blocs!";
         if (scoreManager.IsNewHighScore)
         {
             postGameText.text += $"\n\n<color=#A4C54F>nou récord!</color>";
