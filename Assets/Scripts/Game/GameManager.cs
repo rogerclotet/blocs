@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
             gameState = new GameState()
             {
                 score = scoreManager.Score,
+                placedBlocks = scoreManager.Blocks,
                 board = board.Export(),
                 pieces = defs,
                 randomState = nextPieces.RandomState
@@ -106,6 +107,7 @@ public class GameManager : MonoBehaviour
         gameState = new GameState()
         {
             score = scoreManager.Score,
+            placedBlocks = scoreManager.Blocks,
             board = board.Export(),
             pieces = defs,
             randomState = nextPieces.RandomState
@@ -185,11 +187,18 @@ public class GameManager : MonoBehaviour
 
         SaveData lastSaveData = SaveGameStorage.LoadGame();
 
+        int highScoreBlocks =
+            scoreManager.IsNewHighScore ?
+                scoreManager.Blocks :
+                lastSaveData != null ?
+                    lastSaveData.highScoreBlocks :
+                    0;
+
         SaveData saveData = new SaveData()
         {
             highScore = scoreManager.HighScore,
-            highScoreBlocks = scoreManager.IsNewHighScore ? scoreManager.Blocks : lastSaveData.highScoreBlocks,
-            history = lastSaveData.history,
+            highScoreBlocks = highScoreBlocks,
+            history = lastSaveData != null ? lastSaveData.history : new HistoryEntry[] { },
             state = gameState,
             previousStates = previousStates.ToArray(),
             undoTimes = undoTimes,

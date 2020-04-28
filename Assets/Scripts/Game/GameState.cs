@@ -4,6 +4,7 @@
 public class GameState
 {
     public int score;
+    public int placedBlocks;
     public int highScore;
     public BoardState board;
     public PieceDefinitionData[] pieces;

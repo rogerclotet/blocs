@@ -117,6 +117,7 @@ public class ScoreManager : MonoBehaviour
     public void Load(GameState state)
     {
         Score = state.score;
+        Blocks = state.placedBlocks;
         HighScore = state.highScore;
 
         displayedScore = Score;
