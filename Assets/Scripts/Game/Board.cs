@@ -17,6 +17,7 @@ public class Board : MonoBehaviour, IDropHandler
     private int prevMultiplier = 1;
 
     private const int size = 10;
+    private const float blockClearDelayIncrement = 0.05f;
 
     void Awake()
     {
@@ -185,13 +186,15 @@ public class Board : MonoBehaviour, IDropHandler
 
     void ClearRow(int row)
     {
+        float delay = 0;
         int pointsToAdd = 0;
         for (int j = 0; j < size; j++)
         {
-            bool cleared = ClearCell(row, j);
+            bool cleared = ClearCell(row, j, delay);
             if (cleared)
             {
                 pointsToAdd++;
+                delay += blockClearDelayIncrement;
             }
         }
 
@@ -206,13 +209,15 @@ public class Board : MonoBehaviour, IDropHandler
 
     void ClearColumn(int column)
     {
+        float delay = 0;
         int pointsToAdd = 0;
         for (int i = 0; i < size; i++)
         {
-            bool cleared = ClearCell(i, column);
+            bool cleared = ClearCell(i, column, delay);
             if (cleared)
             {
                 pointsToAdd++;
+                delay += blockClearDelayIncrement;
             }
         }
 
@@ -225,12 +230,12 @@ public class Board : MonoBehaviour, IDropHandler
         multiplier++;
     }
 
-    bool ClearCell(int row, int column)
+    bool ClearCell(int row, int column, float delay)
     {
         Cell c = cells[row][column];
         if (!c.Empty)
         {
-            c.Clear();
+            c.Clear(delay);
             return true;
         }
 
@@ -272,7 +277,7 @@ public class Board : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    c.Clear();
+                    c.Clear(0);
                 }
             }
         }

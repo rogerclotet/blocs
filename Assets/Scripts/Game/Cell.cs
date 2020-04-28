@@ -27,11 +27,11 @@ public class Cell : MonoBehaviour
         block.Assign(this);
     }
 
-    public void Clear()
+    public void Clear(float delay)
     {
         if (block != null)
         {
-            block.Clear();
+            block.Clear(delay);
         }
     }
 }
