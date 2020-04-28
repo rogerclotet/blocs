@@ -2,6 +2,7 @@
 public class BoardState
 {
     public bool[][] filledCells;
+    public int multiplier;
 
     public BoardState(int size)
     {
@@ -10,5 +11,7 @@ public class BoardState
         {
             filledCells[i] = new bool[size];
         }
+
+        multiplier = 1;
     }
 }

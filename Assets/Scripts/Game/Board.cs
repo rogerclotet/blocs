@@ -249,6 +249,8 @@ public class Board : MonoBehaviour, IDropHandler
             }
         }
 
+        state.multiplier = multiplier;
+
         return state;
     }
 
@@ -274,5 +276,8 @@ public class Board : MonoBehaviour, IDropHandler
                 }
             }
         }
+
+        prevMultiplier = Mathf.Max(1, state.multiplier - 1);
+        multiplier = state.multiplier;
     }
 }
