@@ -28,10 +28,22 @@ public class GameManager : MonoBehaviour
         else
         {
             LoadHighScore();
-            nextPieces.GeneratePieces();
-        }
 
-        UpdateGameState();
+            nextPieces.GeneratePieces();
+            PieceDefinitionData[] defs = new PieceDefinitionData[nextPieces.Definitions.Length];
+            for (int i = 0; i < defs.Length; i++)
+            {
+                PieceDefinition def = nextPieces.Definitions[i];
+                defs[i] = def == null ? null : def.Data();
+            }
+            gameState = new GameState()
+            {
+                score = scoreManager.Score,
+                board = board.Export(),
+                pieces = defs,
+                randomState = nextPieces.RandomState
+            };
+        }
 
         UpdateUndoButton();
 
@@ -102,7 +114,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateUndoButton()
     {
-        undoButton.gameObject.SetActive(undoTimes < 3 && previousStates.Count > 1);
+        undoButton.gameObject.SetActive(undoTimes < 3 && previousStates.Count > 0);
     }
 
     public void Undo()
@@ -235,7 +247,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (saveData.previousStates != null)
+        // If we only had one previous state, we are on the first turn
+        if (saveData.previousStates != null && saveData.previousStates.Length > 1)
         {
             previousStates = new List<GameState>(saveData.previousStates);
         }
