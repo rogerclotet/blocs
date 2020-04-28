@@ -38,6 +38,15 @@ public class GameManager : MonoBehaviour
         SaveGame();
     }
 
+    void Update()
+    {
+        // Handle back button
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            GoToMainMenu();
+        }
+    }
+
     public void OnPiecePlaced(Piece piece)
     {
         nextPieces.OnPiecePlaced(piece);

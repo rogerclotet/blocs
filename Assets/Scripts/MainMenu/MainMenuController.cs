@@ -21,6 +21,15 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        // Handle back button
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Exit();
+        }
+    }
+
     public void NewGame()
     {
         GameModeSelector.Selected = GameMode.New;
@@ -40,6 +49,6 @@ public class MainMenuController : MonoBehaviour
 
     public void Exit()
     {
-        Application.Quit();
+        Application.Unload();
     }
 }
