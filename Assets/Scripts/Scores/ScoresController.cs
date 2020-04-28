@@ -16,13 +16,13 @@ public class ScoresController : MonoBehaviour
             Debug.LogError("SaveData not found in scores!");
         }
 
-        highScoreText.text = $"{data.highScore} ({data.highScoreBlocks} blocs)";
+        highScoreText.text = $"{data.highScore} <color=#FFF>({data.highScoreBlocks} blocs)</color>";
 
         string scores = "";
         for (int i = data.history.Length - 1; i >= 0 && i > data.history.Length - 6; i--)
         {
             HistoryEntry entry = data.history[i];
-            scores += $"{entry.score} ({entry.blocks} blocs)\n";
+            scores += $"{entry.score} <color=#FFF>({entry.blocks} blocs)</color>\n";
         }
         scoreHistoryText.text = scores;
     }
