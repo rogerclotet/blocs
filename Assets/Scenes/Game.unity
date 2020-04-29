@@ -2273,6 +2273,7 @@ MonoBehaviour:
   postGameText: {fileID: 1982031122}
   undoButton: {fileID: 933386864}
   scene: {fileID: 1743442659}
+  gpgManager: {fileID: 499916852}
 --- !u!1001 &420191398
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3053,6 +3054,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d75dceab588b1f64c80917aab5bc1395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &499916852 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3794301897096493458, guid: 4db6b796730050046b00578ab1a57842, type: 3}
+  m_PrefabInstance: {fileID: 499916850}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0233b00d21c247744914f567237d195c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &499930572
