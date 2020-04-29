@@ -47,6 +47,11 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("Scores");
     }
 
+    public void Settings()
+    {
+        SceneManager.LoadScene("Settings");
+    }
+
     public void Exit()
     {
         Application.Unload();

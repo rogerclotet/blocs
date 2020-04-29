@@ -51,7 +51,7 @@ public class ScoreManager : MonoBehaviour
             displayedHighScore = Mathf.CeilToInt(Mathf.Lerp(displayedHighScore, HighScore, Time.deltaTime * 10));
         }
 
-        scoreText.text = $"Punts: {displayedScore.ToString()}\nRécord: {displayedHighScore.ToString()}";
+        scoreText.text = string.Format(I18n.Fields["game.header.score"], displayedScore, displayedHighScore);
     }
 
     public void AddPiece(Piece piece, int score, int multiplier)
@@ -63,7 +63,7 @@ public class ScoreManager : MonoBehaviour
         int sizeVariation = score * 2;
 
         floatingTextManager.Show(
-            $"+{score}",
+            string.Format(I18n.Fields["game.game.score_text"], score),
             piece.transform.position + new Vector3(0, piece.Definition.rows / 2f * cellSize),
             Color.white,
             sizeVariation
@@ -87,9 +87,10 @@ public class ScoreManager : MonoBehaviour
         if (multiplier > 1)
         {
             string c = GetColor(multiplier);
-            text += $"<color={c}>x{multiplier}</color> ";
+            string multiplierText = string.Format(I18n.Fields["game.game.multiplier_text"], multiplier);
+            text += $"<color={c}>{multiplierText}</color> ";
         }
-        text += $"+{score}";
+        text += string.Format(I18n.Fields["game.game.score_text"], score);
 
         floatingTextManager.Show(
             text,

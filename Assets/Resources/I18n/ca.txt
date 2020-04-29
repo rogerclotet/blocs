@@ -1,0 +1,27 @@
+menu.title=Blocs!
+menu.new_game=nova partida
+menu.continue=continuar
+menu.scores=puntuacions
+menu.settings=opcions
+
+game.header.score=Punts: {0}\nRécord: {1}
+game.game.score_text=+{0}
+game.game.multiplier_text=x{0}
+game.post.score_text=has aconseguit\n{0} punts\namb {1} blocs!
+game.post.new_high_score=nou récord!
+game.post.game_over_text=no hi ha moviments disponibles :(
+game.post.restart=Tornar a\njugar
+game.post.main_menu=Menú principal
+
+scores.title=Blocs!
+scores.high_score.title=millor puntuació
+scores.high_score.text={0} {1}
+scores.high_score.blocks_text=({0} blocs)
+scores.history.title=últimes partides
+scores.history.entry_text={0} {1}
+scores.history.entry_blocks_text=({0} blocs)
+scores.back=TORNAR
+
+settings.title=Blocs!
+settings.language.title=llengua
+settings.back=TORNAR

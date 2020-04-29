@@ -162,10 +162,11 @@ public class GameManager : MonoBehaviour
         int score = scoreManager.Score;
         int blocks = scoreManager.Blocks;
 
-        postGameText.text = $"has aconseguit\n{score} punts\namb {blocks} blocs!";
+        postGameText.text = string.Format(I18n.Fields["game.post.score_text"], score, blocks);
         if (scoreManager.IsNewHighScore)
         {
-            postGameText.text += $"\n\n<color=#A4C54F>nou récord!</color>";
+            string highScoreText = I18n.Fields["game.post.new_high_score"];
+            postGameText.text += $"\n\n<color=#A4C54F>{highScoreText}</color>";
         }
 
         postGameOverlay.SetActive(true);

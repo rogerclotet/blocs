@@ -1,0 +1,27 @@
+menu.title=Blocs!
+menu.new_game=new game
+menu.continue=continue
+menu.scores=scores
+menu.settings=settings
+
+game.header.score=Score: {0}\nHighscore: {1}
+game.game.score_text=+{0}
+game.game.multiplier_text=x{0}
+game.post.score_text=you got\n{0} points\nwith {1} blocks!
+game.post.new_high_score=new high score!
+game.post.game_over_text=no Valid moves left :(
+game.post.restart=Play\nagain
+game.post.main_menu=Main menu
+
+scores.title=Blocs!
+scores.high_score.title=high score
+scores.high_score.text={0} {1}
+scores.high_score.blocks_text=({0} blocks)
+scores.history.title=latest games
+scores.history.entry_text={0} {1}
+scores.history.entry_blocks_text=({0} blocks)
+scores.back=BACK
+
+settings.title=Blocs!
+settings.language.title=language
+settings.back=BACK
