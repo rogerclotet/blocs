@@ -9,7 +9,6 @@ public class Block : MonoBehaviour
 
     private const float returnSpeed = 10;
     private bool movingToParent;
-    private float clearDelay;
 
     void Start()
     {
@@ -43,14 +42,12 @@ public class Block : MonoBehaviour
     {
         Active = false;
 
-        clearDelay = delay;
-
-        StartCoroutine("ClearWithDelay");
+        StartCoroutine(DoClear(delay));
     }
 
-    IEnumerator ClearWithDelay()
+    IEnumerator DoClear(float delay)
     {
-        yield return new WaitForSeconds(clearDelay);
+        yield return new WaitForSeconds(delay);
 
         Animator animator = GetComponent<Animator>();
         animator.Play("BlockDisappear");
