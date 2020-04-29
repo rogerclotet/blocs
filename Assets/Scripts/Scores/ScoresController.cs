@@ -16,9 +16,9 @@ public class ScoresController : MonoBehaviour
             Debug.LogError("SaveData not found in scores!");
         }
 
-        string blocksText = string.Format(I18n.Fields["scores.high_score.blocks_text"], data.highScore);
+        string blocksText = string.Format(I18n.Fields["scores.high_score.blocks_text"], data.highScoreBlocks);
         blocksText = $"<color=#FFF>{blocksText}</color>";
-        highScoreText.text = string.Format(I18n.Fields["scores.high_score.text"], data.highScoreBlocks, blocksText);
+        highScoreText.text = string.Format(I18n.Fields["scores.high_score.text"], data.highScore, blocksText);
 
         string scores = "";
         for (int i = data.history.Length - 1; i >= 0 && i > data.history.Length - 6; i--)
