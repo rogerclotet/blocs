@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SettingsController : MonoBehaviour
 {
+    public SceneTransition scene;
+
     void Update()
     {
         // Handle back button
@@ -14,6 +15,6 @@ public class SettingsController : MonoBehaviour
 
     public void Back()
     {
-        SceneManager.LoadScene("MainMenu");
+        scene.TransitionTo(SceneTransition.Scene.MainMenu);
     }
 }

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScoresController : MonoBehaviour
 {
     public Text highScoreText;
     public Text scoreHistoryText;
+    public SceneTransition scene;
 
     void Start()
     {
@@ -42,6 +42,6 @@ public class ScoresController : MonoBehaviour
 
     public void Back()
     {
-        SceneManager.LoadScene("MainMenu");
+        scene.TransitionTo(SceneTransition.Scene.MainMenu);
     }
 }

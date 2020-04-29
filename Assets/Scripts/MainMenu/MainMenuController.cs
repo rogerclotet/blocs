@@ -1,11 +1,10 @@
-﻿using System.IO;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
 {
     public GameObject continueButton;
     public GameObject scoresButton;
+    public SceneTransition scene;
 
     void Start()
     {
@@ -33,23 +32,23 @@ public class MainMenuController : MonoBehaviour
     public void NewGame()
     {
         GameModeSelector.Selected = GameMode.New;
-        SceneManager.LoadScene("Game");
+        scene.TransitionTo(SceneTransition.Scene.Game);
     }
 
     public void Continue()
     {
         GameModeSelector.Selected = GameMode.Continue;
-        SceneManager.LoadScene("Game");
+        scene.TransitionTo(SceneTransition.Scene.Game);
     }
 
     public void Scores()
     {
-        SceneManager.LoadScene("Scores");
+        scene.TransitionTo(SceneTransition.Scene.Scores);
     }
 
     public void Settings()
     {
-        SceneManager.LoadScene("Settings");
+        scene.TransitionTo(SceneTransition.Scene.Settings);
     }
 
     public void Exit()

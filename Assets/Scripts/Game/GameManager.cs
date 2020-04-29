@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject postGameOverlay;
     public Text postGameText;
     public Button undoButton;
+    public SceneTransition scene;
 
     private GameState gameState;
     private int undoTimes = 0;
@@ -292,11 +292,11 @@ public class GameManager : MonoBehaviour
 
         SaveGame();
 
-        SceneManager.LoadScene("Game");
+        scene.TransitionTo(SceneTransition.Scene.Game);
     }
 
     public void GoToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        scene.TransitionTo(SceneTransition.Scene.MainMenu);
     }
 }
