@@ -23,5 +23,8 @@ scores.history.entry_blocks_text=({0} blocs)
 scores.back=TORNAR
 
 settings.title=Blocs!
+settings.sound_effects.title=efectes de so
+settings.sound_effects.enabled=activats
+settings.sound_effects.disabled=desactivats
 settings.language.title=llengua
 settings.back=TORNAR
