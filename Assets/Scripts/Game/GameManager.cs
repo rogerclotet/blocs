@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         // Handle back button
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            GoToMainMenu();
+            Undo();
         }
     }
 
