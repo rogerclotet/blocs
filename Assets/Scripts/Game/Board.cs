@@ -287,6 +287,7 @@ public class Board : MonoBehaviour, IDropHandler
                     {
                         Block b = Instantiate(blockPrefab);
                         c.Place(b);
+                        b.transform.localPosition = Vector3.zero;
                     }
                 }
                 else
