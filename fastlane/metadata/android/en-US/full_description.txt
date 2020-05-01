@@ -1,0 +1,3 @@
+Place blocks in such a way you fill up rows or columns in the grid and make them disappear.
+
+The more blocks you can place, the bigger the score you'll get in the end! If you clear lines in a row, you will get a multiplier for the points you get.
