@@ -3,9 +3,42 @@ using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioMixerGroup mixerGroup;
+    private static SoundManager _instance;
 
-    public const string prefsKey = "soundEffects";
+    public static SoundManager instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<SoundManager>();
+
+                DontDestroyOnLoad(_instance.gameObject);
+            }
+
+            return _instance;
+        }
+    }
+
+    public AudioMixerGroup effectsMixerGroup;
+    public AudioSource effectsAudioSource;
+    public AudioClip buttonSound;
+
+    private const string prefsKey = "soundEffects";
+
+    void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else if (this != _instance)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
 
     void Start()
     {
@@ -31,15 +64,20 @@ public class SoundManager : MonoBehaviour
         ApplyState();
     }
 
+    public static void PlayButtonSound()
+    {
+        instance.effectsAudioSource.PlayOneShot(instance.buttonSound);
+    }
+
     void ApplyState()
     {
         if (IsMuted())
         {
-            mixerGroup.audioMixer.SetFloat("EffectsVolume", -80);
+            effectsMixerGroup.audioMixer.SetFloat("EffectsVolume", -80);
         }
         else
         {
-            mixerGroup.audioMixer.SetFloat("EffectsVolume", 0);
+            effectsMixerGroup.audioMixer.SetFloat("EffectsVolume", 0);
         }
     }
 }

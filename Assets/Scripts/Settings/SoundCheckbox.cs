@@ -32,8 +32,6 @@ public class SoundCheckbox : MonoBehaviour
         UpdateCheckbox();
     }
 
-
-
     void UpdateCheckbox()
     {
         if (soundManager.IsMuted())
