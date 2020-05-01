@@ -24,7 +24,8 @@ public class SoundManager : MonoBehaviour
     public AudioSource effectsAudioSource;
     public AudioClip buttonSound;
 
-    private const string prefsKey = "soundEffects";
+    private const string effectsPrefsKey = "soundEffects";
+    private const string effectsVolumeKey = "EffectsVolume";
 
     void Awake()
     {
@@ -47,19 +48,19 @@ public class SoundManager : MonoBehaviour
 
     public bool IsMuted()
     {
-        return PlayerPrefs.HasKey(prefsKey) && PlayerPrefs.GetInt(prefsKey) == 0;
+        return PlayerPrefs.HasKey(effectsPrefsKey) && PlayerPrefs.GetInt(effectsPrefsKey) == 0;
     }
 
     public void Unmute()
     {
-        PlayerPrefs.SetInt(prefsKey, 1);
+        PlayerPrefs.SetInt(effectsPrefsKey, 1);
 
         ApplyState();
     }
 
     public void Mute()
     {
-        PlayerPrefs.SetInt(prefsKey, 0);
+        PlayerPrefs.SetInt(effectsPrefsKey, 0);
 
         ApplyState();
     }
@@ -73,11 +74,11 @@ public class SoundManager : MonoBehaviour
     {
         if (IsMuted())
         {
-            effectsMixerGroup.audioMixer.SetFloat("EffectsVolume", -80);
+            effectsMixerGroup.audioMixer.SetFloat(effectsVolumeKey, -80);
         }
         else
         {
-            effectsMixerGroup.audioMixer.SetFloat("EffectsVolume", 0);
+            effectsMixerGroup.audioMixer.SetFloat(effectsVolumeKey, 0);
         }
     }
 }
