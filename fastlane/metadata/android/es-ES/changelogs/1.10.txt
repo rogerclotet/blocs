@@ -1,0 +1,3 @@
+- Aplicados los colores del tema a la pantalla de después de la partida
+- Mejoradas algunas animaciones
+- Mejorados algunos sonidos
