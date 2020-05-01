@@ -401,6 +401,7 @@ GameObject:
   - component: {fileID: 147736566}
   - component: {fileID: 147736565}
   - component: {fileID: 147736567}
+  - component: {fileID: 147736568}
   m_Layer: 5
   m_Name: TitleText
   m_TagString: Untagged
@@ -485,6 +486,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: scores.title
+--- !u!114 &147736568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147736563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9192339e2fabd224da1962d7d86cff22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &172295372
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +510,7 @@ GameObject:
   - component: {fileID: 172295375}
   - component: {fileID: 172295374}
   - component: {fileID: 172295376}
+  - component: {fileID: 172295377}
   m_Layer: 5
   m_Name: HighScoreTitleText
   m_TagString: Untagged
@@ -578,6 +592,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: scores.high_score.title
+--- !u!114 &172295377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172295372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad67f5d70ed5fb84986bf91a80e2f140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &306829832
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,6 +616,7 @@ GameObject:
   - component: {fileID: 306829835}
   - component: {fileID: 306829834}
   - component: {fileID: 306829836}
+  - component: {fileID: 306829837}
   m_Layer: 5
   m_Name: TitleText
   m_TagString: Untagged
@@ -673,6 +700,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: scores.title
+--- !u!114 &306829837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306829832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad67f5d70ed5fb84986bf91a80e2f140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &374057318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1672,6 +1711,7 @@ GameObject:
   - component: {fileID: 1686198739}
   - component: {fileID: 1686198738}
   - component: {fileID: 1686198737}
+  - component: {fileID: 1686198740}
   m_Layer: 5
   m_Name: Layout
   m_TagString: Untagged
@@ -1765,6 +1805,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1686198740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686198735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 750bf7d00b281ab4d8a3fb27b11616b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1690520487
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,6 +1865,7 @@ GameObject:
   - component: {fileID: 1828962434}
   - component: {fileID: 1828962433}
   - component: {fileID: 1828962435}
+  - component: {fileID: 1828962436}
   m_Layer: 5
   m_Name: ScoresTitleText
   m_TagString: Untagged
@@ -1894,6 +1947,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: scores.history.title
+--- !u!114 &1828962436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828962431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad67f5d70ed5fb84986bf91a80e2f140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1857565244
 GameObject:
   m_ObjectHideFlags: 0

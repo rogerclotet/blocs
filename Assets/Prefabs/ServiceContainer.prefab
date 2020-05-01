@@ -168,6 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7698814677916980622}
   - component: {fileID: 1688258785089641622}
+  - component: {fileID: 7682543381227133399}
   m_Layer: 0
   m_Name: ServiceContainer
   m_TagString: Untagged
@@ -205,3 +206,15 @@ MonoBehaviour:
   effectsMixerGroup: {fileID: 2103572082396356386, guid: a0160149aa5984e4785960adb6923fea, type: 2}
   effectsAudioSource: {fileID: 860467594328085844}
   buttonSound: {fileID: 8300000, guid: b2ce9a484a7a6824b97a25fa1e13dce9, type: 3}
+--- !u!114 &7682543381227133399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7698814677916980621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6771bc086ff521d449b3c6ca2860557a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
