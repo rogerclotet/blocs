@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class MainMenuController : MonoBehaviour
         if (!gpgManager.Enabled || !gpgManager.Connected)
         {
             googlePlayGamesButtons.SetActive(false);
+
+            if (gpgManager.Enabled)
+            {
+                StartCoroutine(WaitForPlayGamesAuth());
+            }
         }
     }
 
@@ -73,5 +79,19 @@ public class MainMenuController : MonoBehaviour
     public void Exit()
     {
         Application.Unload();
+    }
+
+    IEnumerator WaitForPlayGamesAuth()
+    {
+        for (int retries = 1; retries <= 3; retries++)
+        {
+            if (gpgManager.Connected)
+            {
+                googlePlayGamesButtons.SetActive(true);
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(retries);
+        }
     }
 }

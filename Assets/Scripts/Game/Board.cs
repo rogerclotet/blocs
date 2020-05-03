@@ -239,6 +239,7 @@ public class Board : MonoBehaviour, IDropHandler
         scoreManager.AddClearedLine(pointsToAdd, pos, multiplier);
 
         multiplier++;
+        linesThisTurn++;
     }
 
     void ClearColumn(int column)
@@ -262,6 +263,7 @@ public class Board : MonoBehaviour, IDropHandler
         scoreManager.AddClearedLine(pointsToAdd, pos, multiplier);
 
         multiplier++;
+        linesThisTurn++;
     }
 
     bool ClearCell(int row, int column, float delay)
