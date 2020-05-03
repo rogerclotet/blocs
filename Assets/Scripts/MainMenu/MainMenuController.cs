@@ -5,7 +5,7 @@ public class MainMenuController : MonoBehaviour
     public GameObject continueButton;
     public GameObject scoresButton;
     public SceneTransition scene;
-    public GameObject leaderboardButton;
+    public GameObject googlePlayGamesButtons;
 
     private GooglePlayGamesManager gpgManager;
 
@@ -25,7 +25,7 @@ public class MainMenuController : MonoBehaviour
         gpgManager = GooglePlayGamesManager.instance;
         if (!gpgManager.Enabled || !gpgManager.Connected)
         {
-            leaderboardButton.SetActive(false);
+            googlePlayGamesButtons.SetActive(false);
         }
     }
 
@@ -63,6 +63,11 @@ public class MainMenuController : MonoBehaviour
     public void ShowLeaderboard()
     {
         gpgManager.ShowLeaderboard();
+    }
+
+    public void ShowAchievements()
+    {
+        gpgManager.ShowAchievements();
     }
 
     public void Exit()

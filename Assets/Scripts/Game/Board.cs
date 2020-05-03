@@ -17,6 +17,7 @@ public class Board : MonoBehaviour, IDropHandler
     private GraphicRaycaster raycaster;
     private int multiplier = 1;
     private int prevMultiplier = 1;
+    private int linesThisTurn;
 
     private const int size = 10;
     private const float blockClearDelayIncrement = 0.05f;
@@ -70,9 +71,28 @@ public class Board : MonoBehaviour, IDropHandler
 
         PlaceBlocksInCells(piece, blocks, cellsUnderBlocks);
 
+        GooglePlayGamesManager.instance.ReportBlocksAchievementProgress(blocks.Length);
+
         piecePlacedAudioSource.PlayOneShot(piecePlacedAudioSource.clip);
 
+        linesThisTurn = 0;
+
         RemoveCompleteLines();
+
+        if (linesThisTurn > 0)
+        {
+            GooglePlayGamesManager.instance.ReportLinesAchievementProgress(linesThisTurn);
+
+            if (linesThisTurn >= 3)
+            {
+                GooglePlayGamesManager.instance.Report3LinesAtOnceAchievementProgress();
+            }
+
+            if (linesThisTurn >= 5)
+            {
+                GooglePlayGamesManager.instance.Report5LinesAtOnceAchievementProgress();
+            }
+        }
 
         if (prevMultiplier == multiplier)
         {

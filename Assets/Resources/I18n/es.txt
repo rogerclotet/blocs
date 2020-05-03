@@ -3,6 +3,7 @@ menu.new_game=nueva partida
 menu.continue=continuar
 menu.scores=puntuaciones
 menu.leaderboard=classificación
+menu.achievements=logros
 menu.settings=opciones
 
 game.header.score=Puntos: {0}\nRécord: {1}

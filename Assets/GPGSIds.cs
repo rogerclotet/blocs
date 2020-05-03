@@ -24,7 +24,15 @@
 
 public static class GPGSIds
 {
-        public const string leaderboard_highscores = "CgkI4N33hM0WEAIQAQ"; // <GPGSID>
+        public const string achievement_place_100_blocks = "CgkI4N33hM0WEAIQBA"; // <GPGSID>
+        public const string achievement_place_1000_blocks = "CgkI4N33hM0WEAIQBQ"; // <GPGSID>
+        public const string achievement_clear_3_lines_at_once = "CgkI4N33hM0WEAIQCg"; // <GPGSID>
+        public const string achievement_clear_200_lines = "CgkI4N33hM0WEAIQCQ"; // <GPGSID>
+        public const string achievement_clear_5_lines_at_once = "CgkI4N33hM0WEAIQCw"; // <GPGSID>
+        public const string leaderboard_high_scores = "CgkI4N33hM0WEAIQAQ"; // <GPGSID>
+        public const string achievement_first_line_cleared = "CgkI4N33hM0WEAIQBw"; // <GPGSID>
+        public const string achievement_clear_50_lines = "CgkI4N33hM0WEAIQCA"; // <GPGSID>
+        public const string achievement_place_10000_blocks = "CgkI4N33hM0WEAIQBg"; // <GPGSID>
 
 }
 

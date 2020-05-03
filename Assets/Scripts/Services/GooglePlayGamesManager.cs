@@ -93,8 +93,89 @@ public class GooglePlayGamesManager : MonoBehaviour
         Social.ShowLeaderboardUI();
     }
 
+    public void ShowAchievements()
+    {
+        Social.ShowAchievementsUI();
+    }
+
     public void ReportLeaderboardScore(int score)
     {
-        Social.ReportScore(score, GPGSIds.leaderboard_highscores, data => { Debug.Log("Score reported " + data); });
+        if (!Connected) return;
+
+        Social.ReportScore(score, GPGSIds.leaderboard_high_scores, success =>
+        {
+            if (!success)
+            {
+                Debug.LogError("Leaderboard update failed");
+            }
+        });
+    }
+
+    public void ReportBlocksAchievementProgress(int amount)
+    {
+        if (!Connected) return;
+
+        string[] blockAchievementIds = new string[] {
+            GPGSIds.achievement_place_100_blocks,
+            GPGSIds.achievement_place_1000_blocks,
+            GPGSIds.achievement_place_10000_blocks,
+        };
+        foreach (string achievementId in blockAchievementIds)
+        {
+            Social.ReportProgress(achievementId, amount, success =>
+            {
+                if (!success)
+                {
+                    Debug.LogError("Achievement update failed");
+                }
+            });
+        }
+    }
+
+    public void ReportLinesAchievementProgress(int amount)
+    {
+        if (!Connected) return;
+
+        string[] blockAchievementIds = new string[] {
+            GPGSIds.achievement_first_line_cleared,
+            GPGSIds.achievement_clear_50_lines,
+            GPGSIds.achievement_clear_200_lines,
+        };
+        foreach (string achievementId in blockAchievementIds)
+        {
+            Social.ReportProgress(achievementId, amount, success =>
+            {
+                if (!success)
+                {
+                    Debug.LogError("Achievement update failed");
+                }
+            });
+        }
+    }
+
+    public void Report3LinesAtOnceAchievementProgress()
+    {
+        if (!Connected) return;
+
+        Social.ReportProgress(GPGSIds.achievement_clear_3_lines_at_once, 1, success =>
+        {
+            if (!success)
+            {
+                Debug.LogError("Achievement update failed");
+            }
+        });
+    }
+
+    public void Report5LinesAtOnceAchievementProgress()
+    {
+        if (!Connected) return;
+
+        Social.ReportProgress(GPGSIds.achievement_clear_5_lines_at_once, 1, success =>
+        {
+            if (!success)
+            {
+                Debug.LogError("Achievement update failed");
+            }
+        });
     }
 }

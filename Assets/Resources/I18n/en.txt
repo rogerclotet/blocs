@@ -3,6 +3,7 @@ menu.new_game=new game
 menu.continue=continue
 menu.scores=scores
 menu.leaderboard=leaderboard
+menu.achievements=achievements
 menu.settings=settings
 
 game.header.score=Score: {0}\nHighscore: {1}
