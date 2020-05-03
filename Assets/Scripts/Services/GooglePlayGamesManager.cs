@@ -122,13 +122,17 @@ public class GooglePlayGamesManager : MonoBehaviour
         };
         foreach (string achievementId in blockAchievementIds)
         {
-            Social.ReportProgress(achievementId, amount, success =>
-            {
-                if (!success)
+            PlayGamesPlatform.Instance.IncrementAchievement(
+                achievementId,
+                amount,
+                success =>
                 {
-                    Debug.LogError("Achievement update failed");
+                    if (!success)
+                    {
+                        Debug.LogError("Achievement update failed");
+                    }
                 }
-            });
+            );
         }
     }
 
@@ -136,20 +140,34 @@ public class GooglePlayGamesManager : MonoBehaviour
     {
         if (!Connected) return;
 
-        string[] blockAchievementIds = new string[] {
+        PlayGamesPlatform.Instance.UnlockAchievement(
             GPGSIds.achievement_first_line_cleared,
-            GPGSIds.achievement_clear_50_lines,
-            GPGSIds.achievement_clear_200_lines,
-        };
-        foreach (string achievementId in blockAchievementIds)
-        {
-            Social.ReportProgress(achievementId, amount, success =>
+            success =>
             {
                 if (!success)
                 {
                     Debug.LogError("Achievement update failed");
                 }
-            });
+            }
+        );
+
+        string[] blockAchievementIds = new string[] {
+            GPGSIds.achievement_clear_50_lines,
+            GPGSIds.achievement_clear_200_lines,
+        };
+        foreach (string achievementId in blockAchievementIds)
+        {
+            PlayGamesPlatform.Instance.IncrementAchievement(
+                achievementId,
+                amount,
+                success =>
+                {
+                    if (!success)
+                    {
+                        Debug.LogError("Achievement update failed");
+                    }
+                }
+            );
         }
     }
 
@@ -157,25 +175,31 @@ public class GooglePlayGamesManager : MonoBehaviour
     {
         if (!Connected) return;
 
-        Social.ReportProgress(GPGSIds.achievement_clear_3_lines_at_once, 1, success =>
-        {
-            if (!success)
+        PlayGamesPlatform.Instance.UnlockAchievement(
+            GPGSIds.achievement_clear_3_lines_at_once,
+            success =>
             {
-                Debug.LogError("Achievement update failed");
+                if (!success)
+                {
+                    Debug.LogError("Achievement update failed");
+                }
             }
-        });
+        );
     }
 
     public void Report5LinesAtOnceAchievementProgress()
     {
         if (!Connected) return;
 
-        Social.ReportProgress(GPGSIds.achievement_clear_5_lines_at_once, 1, success =>
-        {
-            if (!success)
+        PlayGamesPlatform.Instance.UnlockAchievement(
+            GPGSIds.achievement_clear_5_lines_at_once,
+            success =>
             {
-                Debug.LogError("Achievement update failed");
+                if (!success)
+                {
+                    Debug.LogError("Achievement update failed");
+                }
             }
-        });
+        );
     }
 }
