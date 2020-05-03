@@ -23,7 +23,7 @@ public class MainMenuController : MonoBehaviour
         }
 
         gpgManager = GooglePlayGamesManager.instance;
-        if (!gpgManager.Enabled)
+        if (!gpgManager.Enabled || !gpgManager.Connected)
         {
             leaderboardButton.SetActive(false);
         }
