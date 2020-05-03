@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     private int undoTimes = 0;
     private List<GameState> previousStates;
+    private GooglePlayGamesManager gpgManager;
 
     void Start()
     {
@@ -168,6 +169,8 @@ public class GameManager : MonoBehaviour
             string highScoreText = I18n.Fields["game.post.new_high_score"];
             postGameText.text += $"\n\n<color=#A4C54F>{highScoreText}</color>";
         }
+
+        GooglePlayGamesManager.instance.ReportLeaderboardScore(score);
 
         postGameOverlay.SetActive(true);
 

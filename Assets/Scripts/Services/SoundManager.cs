@@ -40,7 +40,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-
     void Start()
     {
         ApplyState();

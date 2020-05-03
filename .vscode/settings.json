@@ -65,7 +65,6 @@
 		"ProjectSettings/": true,
 		"temp/": true,
 		"Temp/": true,
-		"Logs/": true,
-		"Assets/Plugins": true
+		"Logs/": true
 	}
 }

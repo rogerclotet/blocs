@@ -2,6 +2,7 @@ menu.title=Blocs!
 menu.new_game=nova partida
 menu.continue=continuar
 menu.scores=puntuacions
+menu.leaderboard=classificació
 menu.settings=opcions
 
 game.header.score=Punts: {0}\nRécord: {1}
