@@ -20,7 +20,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public AudioMixerGroup effectsMixerGroup;
     public AudioSource effectsAudioSource;
     public AudioClip buttonSound;
 
@@ -70,11 +69,11 @@ public class SoundManager : MonoBehaviour
     {
         if (IsMuted())
         {
-            effectsMixerGroup.audioMixer.SetFloat(effectsVolumeKey, -80);
+            AudioListener.volume = 0;
         }
         else
         {
-            effectsMixerGroup.audioMixer.SetFloat(effectsVolumeKey, 0);
+            AudioListener.volume = 1;
         }
     }
 }
