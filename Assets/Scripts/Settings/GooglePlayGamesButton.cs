@@ -3,9 +3,10 @@ using UnityEngine.UI;
 
 public class GooglePlayGamesButton : MonoBehaviour
 {
-    public GameObject button;
+    public Image logo;
     public Sprite connectedSprite;
     public Sprite disconnectedSprite;
+    public Text text;
 
     private GooglePlayGamesManager gpgManager;
 
@@ -23,11 +24,13 @@ public class GooglePlayGamesButton : MonoBehaviour
     {
         if (gpgManager.Connected)
         {
-            button.GetComponent<Image>().sprite = connectedSprite;
+            text.text = I18n.Fields["settings.gpg.connected"];
+            logo.sprite = connectedSprite;
         }
         else
         {
-            button.GetComponent<Image>().sprite = disconnectedSprite;
+            text.text = I18n.Fields["settings.gpg.disconnected"];
+            logo.sprite = disconnectedSprite;
         }
     }
 
