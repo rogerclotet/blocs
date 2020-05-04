@@ -29,6 +29,8 @@ public class SoundManager : MonoBehaviour
 
     void Awake()
     {
+        ApplyState();
+
         if (_instance == null)
         {
             _instance = this;
@@ -38,11 +40,6 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
-
-    void Start()
-    {
-        ApplyState();
     }
 
     public bool IsMuted()
