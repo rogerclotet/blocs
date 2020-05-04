@@ -12,8 +12,10 @@ game.game.multiplier_text=x{0}
 game.post.score_text=you got\n{0} points\nwith {1} blocks!
 game.post.new_high_score=new high score!
 game.post.game_over_text=no Valid moves left :(
+game.post.share=share!
 game.post.restart=Play\nagain
 game.post.main_menu=Main menu
+game.share.text=I got {0} points with {1} blocks! Can you beat it? Play on https://play.google.com/store/apps/details?id=dev.clotet.Blocs
 
 scores.title=Blocs!
 scores.high_score.title=high score

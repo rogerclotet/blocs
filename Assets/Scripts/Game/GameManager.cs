@@ -12,11 +12,22 @@ public class GameManager : MonoBehaviour
     public Text postGameText;
     public Button undoButton;
     public SceneTransition scene;
+    public GameObject shareButton;
 
     private GameState gameState;
     private int undoTimes = 0;
     private List<GameState> previousStates;
     private GooglePlayGamesManager gpgManager;
+    private int lastGameScore;
+    private int lastGameBlocks;
+
+    void Awake()
+    {
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            shareButton.SetActive(false);
+        }
+    }
 
     void Start()
     {
@@ -172,6 +183,9 @@ public class GameManager : MonoBehaviour
 
         GooglePlayGamesManager.instance.ReportLeaderboardScore(score);
 
+        lastGameScore = score;
+        lastGameBlocks = blocks;
+
         postGameOverlay.SetActive(true);
 
         // Save game over state
@@ -301,5 +315,12 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         scene.TransitionTo(SceneTransition.Scene.MainMenu);
+    }
+
+    public void ShareResult()
+    {
+        new NativeShare()
+            .SetText(string.Format(I18n.Fields["game.share.text"], lastGameScore, lastGameBlocks))
+            .Share();
     }
 }

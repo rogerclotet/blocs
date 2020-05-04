@@ -12,8 +12,10 @@ game.game.multiplier_text=x{0}
 game.post.score_text=has aconseguit\n{0} punts\namb {1} blocs!
 game.post.new_high_score=nou récord!
 game.post.game_over_text=no hi ha moviments disponibles :(
+game.post.share=compartir!
 game.post.restart=Tornar a\njugar
 game.post.main_menu=Menú principal
+game.share.text=He aconseguit {0} punts amb {1} blocs! Pots superar-ho? Juga a https://play.google.com/store/apps/details?id=dev.clotet.Blocs
 
 scores.title=Blocs!
 scores.high_score.title=millor puntuació
