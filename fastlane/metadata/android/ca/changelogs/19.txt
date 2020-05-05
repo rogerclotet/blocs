@@ -1,0 +1,3 @@
+- Botó de compartir la puntuació després d'una partida
+- Millores en la interfície d'usuari
+- Millores en la desactivació del so
