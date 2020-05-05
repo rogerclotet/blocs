@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     private int lastGameScore;
     private int lastGameBlocks;
 
+    private const int maxUndoTimes = 1;
+
     void Awake()
     {
         if (Application.platform != RuntimePlatform.Android)
@@ -128,13 +130,13 @@ public class GameManager : MonoBehaviour
 
     void UpdateUndoButton()
     {
-        undoButton.gameObject.SetActive(undoTimes < 3 && previousStates.Count > 0);
+        undoButton.gameObject.SetActive(undoTimes < maxUndoTimes && previousStates.Count > 0);
     }
 
     public void Undo()
     {
         if (previousStates.Count == 0) return;
-        if (undoTimes > 3) return;
+        if (undoTimes > maxUndoTimes) return;
 
         gameState = previousStates[previousStates.Count - 1];
         previousStates.RemoveAt(previousStates.Count - 1);
