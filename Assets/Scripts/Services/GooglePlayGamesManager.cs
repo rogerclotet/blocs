@@ -116,9 +116,9 @@ public class GooglePlayGamesManager : MonoBehaviour
         if (!Connected) return;
 
         string[] blockAchievementIds = new string[] {
-            GPGSIds.achievement_place_100_blocks,
-            GPGSIds.achievement_place_1000_blocks,
-            GPGSIds.achievement_place_10000_blocks,
+            GPGSIds.achievement_100_blocks,
+            GPGSIds.achievement_1000_blocks,
+            GPGSIds.achievement_10000_blocks,
         };
         foreach (string achievementId in blockAchievementIds)
         {
@@ -141,7 +141,7 @@ public class GooglePlayGamesManager : MonoBehaviour
         if (!Connected) return;
 
         PlayGamesPlatform.Instance.UnlockAchievement(
-            GPGSIds.achievement_first_line_cleared,
+            GPGSIds.achievement_first_of_many,
             success =>
             {
                 if (!success)
@@ -152,8 +152,8 @@ public class GooglePlayGamesManager : MonoBehaviour
         );
 
         string[] blockAchievementIds = new string[] {
-            GPGSIds.achievement_clear_50_lines,
-            GPGSIds.achievement_clear_200_lines,
+            GPGSIds.achievement_50_lines,
+            GPGSIds.achievement_200_lines,
         };
         foreach (string achievementId in blockAchievementIds)
         {
@@ -176,7 +176,7 @@ public class GooglePlayGamesManager : MonoBehaviour
         if (!Connected) return;
 
         PlayGamesPlatform.Instance.UnlockAchievement(
-            GPGSIds.achievement_clear_3_lines_at_once,
+            GPGSIds.achievement_triple,
             success =>
             {
                 if (!success)
@@ -192,7 +192,7 @@ public class GooglePlayGamesManager : MonoBehaviour
         if (!Connected) return;
 
         PlayGamesPlatform.Instance.UnlockAchievement(
-            GPGSIds.achievement_clear_5_lines_at_once,
+            GPGSIds.achievement_pentaline,
             success =>
             {
                 if (!success)
