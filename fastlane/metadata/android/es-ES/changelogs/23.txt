@@ -1,0 +1,2 @@
+- Mejoras al menú principal
+- Arreglado el sonido desactivado después de volver a abrir la aplicación
