@@ -33,7 +33,6 @@ public static class GPGSIds
         public const string achievement_100_blocks = "CgkI4N33hM0WEAIQBA"; // <GPGSID>
         public const string achievement_pentaline = "CgkI4N33hM0WEAIQCw"; // <GPGSID>
         public const string achievement_first_of_many = "CgkI4N33hM0WEAIQBw"; // <GPGSID>
-        public const string leaderboard_high_scores_old = "CgkI4N33hM0WEAIQAQ"; // <GPGSID>
 
 }
 
