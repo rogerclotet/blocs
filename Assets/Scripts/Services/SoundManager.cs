@@ -41,6 +41,16 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus) ApplyState();
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus) ApplyState();
+    }
+
     public bool IsMuted()
     {
         return PlayerPrefs.HasKey(effectsPrefsKey) && PlayerPrefs.GetInt(effectsPrefsKey) == 0;
