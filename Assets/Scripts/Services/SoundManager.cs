@@ -33,6 +33,7 @@ public class SoundManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            AudioSettings.OnAudioConfigurationChanged += OnAudioConfigurationChanged;
             DontDestroyOnLoad(this);
         }
         else if (this != _instance)
@@ -49,6 +50,11 @@ public class SoundManager : MonoBehaviour
     void OnApplicationPause(bool pauseStatus)
     {
         if (!pauseStatus) ApplyState();
+    }
+
+    void OnAudioConfigurationChanged(bool deviceWasChanged)
+    {
+        ApplyState();
     }
 
     public bool IsMuted()
