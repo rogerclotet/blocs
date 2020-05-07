@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
     public void Undo()
     {
         if (previousStates.Count == 0) return;
-        if (undoTimes > maxUndoTimes) return;
+        if (undoTimes >= maxUndoTimes) return;
 
         gameState = previousStates[previousStates.Count - 1];
         previousStates.RemoveAt(previousStates.Count - 1);
