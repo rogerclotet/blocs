@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private int undoTimes = 0;
     private List<GameState> previousStates;
     private GooglePlayGamesManager gpgManager;
+    private bool gameEnded;
     private int lastGameScore;
     private int lastGameBlocks;
 
@@ -70,7 +71,14 @@ public class GameManager : MonoBehaviour
         // Handle back button
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            Undo();
+            if (gameEnded)
+            {
+                GoToMainMenu();
+            }
+            else
+            {
+                Undo();
+            }
         }
     }
 
@@ -173,6 +181,8 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
+        gameEnded = true;
+
         int score = scoreManager.Score;
         int blocks = scoreManager.Blocks;
 
