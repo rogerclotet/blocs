@@ -55,10 +55,18 @@ get-unity-version:
 
 build-android:
   stage: build
+  # Unity Android images exceed the 30 GB disk on saas-linux-small-amd64 runners.
+  tags:
+    - saas-linux-medium-amd64
   image: $IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   <<: *unity_before_script
   <<: *cache
   <<: *unity_after_script
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
   artifacts:
