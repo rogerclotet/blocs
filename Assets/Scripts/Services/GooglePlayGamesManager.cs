@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_ANDROID
+using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -13,7 +14,7 @@ public class GooglePlayGamesManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = GameObject.FindObjectOfType<GooglePlayGamesManager>();
+                _instance = GameObject.FindAnyObjectByType<GooglePlayGamesManager>();
 
                 DontDestroyOnLoad(_instance.gameObject);
             }
@@ -34,7 +35,7 @@ public class GooglePlayGamesManager : MonoBehaviour
     {
         get
         {
-            return Social.localUser.authenticated;
+            return PlayGamesPlatform.Instance.IsAuthenticated();
         }
     }
 
@@ -56,16 +57,11 @@ public class GooglePlayGamesManager : MonoBehaviour
     {
         if (!Enabled) return;
 
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
-        PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
-
-        PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptOnce, (result) =>
+        PlayGamesPlatform.Instance.Authenticate(result =>
         {
-            bool connected = result == SignInStatus.Success;
-
-            if (!connected)
+            if (result != SignInStatus.Success)
             {
                 Debug.LogError("Did not authenticate: " + result.ToString());
             }
@@ -74,18 +70,18 @@ public class GooglePlayGamesManager : MonoBehaviour
 
     public void SignIn()
     {
-        Social.localUser.Authenticate((success, err) =>
+        PlayGamesPlatform.Instance.ManuallyAuthenticate(result =>
         {
-            if (!success)
+            if (result != SignInStatus.Success)
             {
-                Debug.LogError("Did not authenticate: " + err);
+                Debug.LogError("Did not authenticate: " + result.ToString());
             }
         });
     }
 
     public void SignOut()
     {
-        PlayGamesPlatform.Instance.SignOut();
+        Debug.LogWarning("Google Play Games v2 does not support programmatic sign-out.");
     }
 
     public void ShowLeaderboard()
@@ -203,3 +199,51 @@ public class GooglePlayGamesManager : MonoBehaviour
         );
     }
 }
+#else
+using UnityEngine;
+
+public class GooglePlayGamesManager : MonoBehaviour
+{
+    private static GooglePlayGamesManager _instance;
+
+    public static GooglePlayGamesManager instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindAnyObjectByType<GooglePlayGamesManager>();
+                DontDestroyOnLoad(_instance.gameObject);
+            }
+
+            return _instance;
+        }
+    }
+
+    public bool Enabled => false;
+    public bool Connected => false;
+
+    void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else if (this != _instance)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public void SignIn() { }
+    public void SignOut() { }
+    public void ShowLeaderboard() { }
+    public void ShowAchievements() { }
+    public void ReportLeaderboardScore(int score) { }
+    public void ReportBlocksAchievementProgress(int amount) { }
+    public void ReportLinesAchievementProgress(int amount) { }
+    public void Report3LinesAtOnceAchievementProgress() { }
+    public void Report5LinesAtOnceAchievementProgress() { }
+}
+#endif
