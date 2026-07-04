@@ -1,5 +1,5 @@
-lastUpgrade=01008
-proj.pluginVersion=0.10.08
+lastUpgrade=20100
+proj.pluginVersion=2.1.0
 proj.AppId=776594124512
 and.BundleId=dev.clotet.Blocs
 proj.classDir=Assets

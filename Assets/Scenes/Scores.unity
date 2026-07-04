@@ -1092,19 +1092,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - component: {fileID: 1688258785089641622, guid: 4db6b796730050046b00578ab1a57842, type: 3}
+    - component: {fileID: 7698814677751242861, guid: 4db6b796730050046b00578ab1a57842, type: 3}
+    - component: {fileID: 4206601411758568883, guid: 4db6b796730050046b00578ab1a57842, type: 3}
+    - component: {fileID: 860467594328085844, guid: 4db6b796730050046b00578ab1a57842, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4db6b796730050046b00578ab1a57842, type: 3}
---- !u!114 &918687829 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1688258785089641622, guid: 4db6b796730050046b00578ab1a57842, type: 3}
-  m_PrefabInstance: {fileID: 918687828}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d75dceab588b1f64c80917aab5bc1395, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1172502258
 GameObject:
   m_ObjectHideFlags: 0
@@ -2060,18 +2053,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1288826444}
         m_TargetAssemblyTypeName: ScoresController, Assembly-CSharp
         m_MethodName: Back
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 918687829}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: PlayButtonSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

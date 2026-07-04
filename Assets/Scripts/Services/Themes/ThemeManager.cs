@@ -38,7 +38,7 @@ public class ThemeManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = GameObject.FindObjectOfType<ThemeManager>();
+                _instance = GameObject.FindAnyObjectByType<ThemeManager>();
 
                 DontDestroyOnLoad(_instance.gameObject);
             }

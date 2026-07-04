@@ -10,8 +10,6 @@ public class Board : MonoBehaviour, IDropHandler
     public EventSystem eventSystem;
     public Cell cellPrefab;
     public Block blockPrefab;
-    public AudioSource lineClearedAudioSource;
-    public AudioSource piecePlacedAudioSource;
 
     private Cell[][] cells;
     private GraphicRaycaster raycaster;
@@ -72,8 +70,6 @@ public class Board : MonoBehaviour, IDropHandler
         PlaceBlocksInCells(piece, blocks, cellsUnderBlocks);
 
         GooglePlayGamesManager.instance.ReportBlocksAchievementProgress(blocks.Length);
-
-        piecePlacedAudioSource.PlayOneShot(piecePlacedAudioSource.clip);
 
         linesThisTurn = 0;
 
@@ -194,27 +190,17 @@ public class Board : MonoBehaviour, IDropHandler
             }
         }
 
-        bool playSound = false;
-
         for (int i = 0; i < size; i++)
         {
             if (completeRows[i])
             {
                 ClearRow(i);
-                playSound = true;
             }
 
             if (completeColumns[i])
             {
                 ClearColumn(i);
-                playSound = true;
             }
-        }
-
-        if (playSound)
-        {
-            lineClearedAudioSource.pitch = Mathf.Min(0.4f + 0.2f * multiplier, 1.8f);
-            lineClearedAudioSource.PlayOneShot(lineClearedAudioSource.clip);
         }
     }
 
