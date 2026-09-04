@@ -18,7 +18,6 @@ import { canUndo, finishGame, isPiecePlaceable, placePiece, savePlaying, undo } 
 import { getPiece } from '../domain/pieces';
 import type { GameState, PlayingSession, SaveData } from '../domain/types';
 import type { Translator } from '../i18n/translations';
-import { platformGameService } from '../services/platformGameService';
 import type { Theme } from '../theme/themes';
 
 type Rect = Readonly<{ x: number; y: number; width: number; height: number }>;
@@ -159,8 +158,6 @@ export function GameScreen({
     const result = placePiece(session, slot, row, column);
     if (result.kind === 'invalid') return;
     const lineScore = result.lineScores.reduce((total, line) => total + line.score, 0);
-    platformGameService.reportPlacedBlocks(placedPiece.blocks.length);
-    if (result.lineScores.length > 0) platformGameService.reportClearedLines(result.lineScores.length);
     const feedbackAnchor = scoreFeedbackAnchor({ row, column, piece: placedPiece, lines: result.lineScores });
     showScore({ pieceScore: result.pieceScore, lineScore, anchor: feedbackAnchor });
     if (result.lineScores.length > 0) {
@@ -175,7 +172,6 @@ export function GameScreen({
       onSave(savePlaying(save, result.session));
       return;
     }
-    platformGameService.reportFinishedGame(result.game.score);
     gameOverAnimation.setValue(0);
     setGameOver(result.game);
     Animated.spring(gameOverAnimation, {
