@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
+import House from 'lucide-react-native/icons/house';
+import Undo2 from 'lucide-react-native/icons/undo-2';
 import {
-  Image,
-  type ImageSourcePropType,
   Pressable,
   StyleSheet,
   Text,
@@ -11,57 +11,67 @@ import {
 
 import type { Theme } from '../theme/themes';
 
-export const GAME_FONT = 'Gamer';
+export const DISPLAY_FONT = 'Fredoka_700Bold';
+export const BUTTON_FONT = 'Fredoka_600SemiBold';
+export const UI_FONT = 'Manrope_600SemiBold';
+export const UI_FONT_BOLD = 'Manrope_700Bold';
 
-export function PixelBackdrop({ theme, children }: { theme: Theme; children: ReactNode }) {
+export type GameIcon = 'home' | 'undo';
+
+export function GameBackdrop({ children }: { children: ReactNode }) {
   return (
-    <View style={[styles.backdrop, { backgroundColor: theme.background }]}>
+    <View style={styles.backdrop}>
       <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-        {Array.from({ length: 14 }, (_, index) => (
-          <View
-            key={index}
-            style={[
-              styles.backdropStripe,
-              {
-                backgroundColor: theme.primaryDark,
-                left: `${index * 10 - 22}%`,
-                opacity: index % 2 === 0 ? 0.12 : 0.07,
-              },
-            ]}
-          />
-        ))}
+        <View style={[styles.velvetPool, styles.velvetPoolTop]} />
+        <View style={[styles.velvetPool, styles.velvetPoolMiddle]} />
+        <View style={[styles.velvetPool, styles.velvetPoolBottom]} />
+        <View style={styles.velvetVeil} />
       </View>
       {children}
     </View>
   );
 }
 
-export function Logo({ theme, compact = false }: { theme: Theme; compact?: boolean }) {
+function LogoBlock({ theme, style }: { theme: Theme; style?: ViewStyle }) {
   return (
-    <View style={[styles.logoWrap, compact && styles.logoWrapCompact]}>
-      <View style={[styles.logoShadow, { backgroundColor: theme.primaryDark }]} />
-      <View style={[styles.logoTile, { backgroundColor: theme.primary }]}>
-        <View style={[styles.logoHighlightTop, { backgroundColor: theme.secondaryLight }]} />
-        <View style={[styles.logoHighlightLeft, { backgroundColor: theme.secondaryLight }]} />
-        <Text style={[styles.logoText, compact && styles.logoTextCompact, { color: theme.secondary }]}>Blocs!</Text>
-      </View>
+    <View style={[styles.logoBlock, { backgroundColor: theme.primary, shadowColor: theme.primary }, style]}>
+      <View style={styles.logoBlockShine} />
     </View>
   );
 }
 
-export function PixelButton({
+export function Logo({ theme, compact = false }: { theme: Theme; compact?: boolean }) {
+  return (
+    <View style={[styles.logoWrap, compact && styles.logoWrapCompact]} accessibilityRole="header">
+      <View style={[styles.logoMark, compact && styles.logoMarkCompact]}>
+        <LogoBlock theme={theme} />
+        <LogoBlock theme={theme} style={styles.logoBlockOffset} />
+        <LogoBlock theme={theme} style={styles.logoBlockCorner} />
+      </View>
+      <Text style={[styles.logoText, compact && styles.logoTextCompact, { color: theme.text }]}>Blocs<Text style={{ color: theme.secondary }}>!</Text></Text>
+    </View>
+  );
+}
+
+export function GameButton({
   label,
   onPress,
   theme,
   disabled = false,
   wide = false,
+  variant = 'secondary',
 }: {
   label: string;
   onPress: () => void;
   theme: Theme;
   disabled?: boolean;
   wide?: boolean;
+  variant?: 'primary' | 'secondary' | 'quiet';
 }) {
+  const isPrimary = variant === 'primary';
+  const backgroundColor = isPrimary ? theme.secondary : variant === 'quiet' ? 'transparent' : theme.surfaceRaised;
+  const textColor = isPrimary ? theme.ink : variant === 'quiet' ? theme.textMuted : theme.text;
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -69,17 +79,21 @@ export function PixelButton({
       disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [
-        styles.buttonShadow,
+        styles.button,
         wide && styles.buttonWide,
-        { backgroundColor: theme.primaryDark, opacity: disabled ? 0.42 : 1 },
+        {
+          backgroundColor,
+          borderColor: isPrimary ? theme.secondaryLight : theme.cell,
+          opacity: disabled ? 0.4 : 1,
+          shadowColor: isPrimary ? theme.secondary : '#000000',
+        },
         pressed && styles.buttonPressed,
       ]}
     >
-      <View style={[styles.buttonFace, { backgroundColor: theme.secondary }]}>
-        <Text numberOfLines={2} adjustsFontSizeToFit style={[styles.buttonText, { color: theme.primaryDark }]}>
-          {label}
-        </Text>
-      </View>
+      {isPrimary ? <View pointerEvents="none" style={styles.buttonShine} /> : null}
+      <Text numberOfLines={2} adjustsFontSizeToFit style={[styles.buttonText, { color: textColor }]}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -91,12 +105,14 @@ export function IconButton({
   theme,
   disabled = false,
 }: {
-  icon: ImageSourcePropType;
+  icon: GameIcon;
   label: string;
   onPress: () => void;
   theme: Theme;
   disabled?: boolean;
 }) {
+  const Icon = icon === 'undo' ? Undo2 : House;
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -104,13 +120,17 @@ export function IconButton({
       disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [
-        styles.iconShadow,
-        { backgroundColor: theme.primaryDark, opacity: disabled ? 0.3 : 1 },
+        styles.iconButton,
+        {
+          backgroundColor: theme.surfaceRaised,
+          borderColor: theme.cell,
+          opacity: disabled ? 0.3 : 1,
+        },
         pressed && styles.iconPressed,
       ]}
     >
-      <View style={[styles.iconFace, { backgroundColor: theme.secondary }]}>
-        <Image source={icon} resizeMode="contain" style={[styles.icon, { tintColor: theme.primaryDark }]} />
+      <View style={styles.iconGraphic}>
+        <Icon color={theme.text} size={24} strokeWidth={2.35} />
       </View>
     </Pressable>
   );
@@ -118,32 +138,89 @@ export function IconButton({
 
 export function Panel({ theme, children, style }: { theme: Theme; children: ReactNode; style?: ViewStyle }) {
   return (
-    <View style={[styles.panelShadow, { backgroundColor: theme.primaryDark }, style]}>
-      <View style={[styles.panel, { backgroundColor: theme.primary }]}>{children}</View>
+    <View
+      style={[
+        styles.panel,
+        {
+          backgroundColor: theme.surface,
+          borderColor: theme.surfaceRaised,
+          shadowColor: theme.ink,
+        },
+        style,
+      ]}
+    >
+      {children}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  backdrop: { flex: 1, overflow: 'hidden' },
-  backdropStripe: { position: 'absolute', top: '-20%', width: '4%', height: '150%', transform: [{ rotate: '18deg' }] },
-  logoWrap: { width: 278, height: 190, marginBottom: 26 },
-  logoWrapCompact: { width: 190, height: 96, marginBottom: 12 },
-  logoShadow: { position: 'absolute', left: 12, top: 12, right: 0, bottom: 0 },
-  logoTile: { position: 'absolute', left: 0, top: 0, right: 12, bottom: 12, alignItems: 'center', justifyContent: 'center' },
-  logoHighlightTop: { position: 'absolute', left: 0, top: 0, right: 0, height: 10, opacity: 0.65 },
-  logoHighlightLeft: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 10, opacity: 0.65 },
-  logoText: { fontFamily: GAME_FONT, fontSize: 88, lineHeight: 94, textShadowColor: 'rgba(0,0,0,0.22)', textShadowOffset: { width: 3, height: 4 }, textShadowRadius: 0 },
-  logoTextCompact: { fontSize: 58, lineHeight: 63 },
-  buttonShadow: { width: 220, minHeight: 61, paddingRight: 5, paddingBottom: 6, marginVertical: 6 },
-  buttonWide: { width: 260 },
-  buttonFace: { flex: 1, minHeight: 55, paddingHorizontal: 16, paddingVertical: 9, alignItems: 'center', justifyContent: 'center' },
-  buttonText: { fontFamily: GAME_FONT, fontSize: 31, lineHeight: 34, textAlign: 'center', textTransform: 'uppercase' },
-  buttonPressed: { transform: [{ translateX: 3 }, { translateY: 4 }] },
-  iconShadow: { width: 47, height: 47, paddingRight: 4, paddingBottom: 5, marginLeft: 8 },
-  iconFace: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  icon: { width: 25, height: 25 },
-  iconPressed: { transform: [{ translateX: 2 }, { translateY: 3 }] },
-  panelShadow: { paddingRight: 7, paddingBottom: 8 },
-  panel: { flex: 1, padding: 18 },
+  backdrop: { flex: 1, overflow: 'hidden', backgroundColor: '#10091A' },
+  velvetPool: { position: 'absolute', borderRadius: 999 },
+  velvetPoolTop: { width: 520, height: 520, top: -300, right: -210, backgroundColor: '#3B1F5A', opacity: 0.68 },
+  velvetPoolMiddle: { width: 390, height: 560, top: '26%', left: -300, backgroundColor: '#29143F', opacity: 0.72, transform: [{ rotate: '-18deg' }] },
+  velvetPoolBottom: { width: 500, height: 380, right: -330, bottom: -160, backgroundColor: '#241238', opacity: 0.78, transform: [{ rotate: '24deg' }] },
+  velvetVeil: { position: 'absolute', width: '140%', height: 150, left: '-20%', top: '44%', backgroundColor: '#170B27', opacity: 0.5, transform: [{ rotate: '-11deg' }] },
+  logoWrap: { alignItems: 'center', justifyContent: 'center', marginBottom: 38 },
+  logoWrapCompact: { flexDirection: 'row', marginBottom: 18 },
+  logoMark: { width: 72, height: 42, marginBottom: 13 },
+  logoMarkCompact: { width: 47, height: 32, marginBottom: 0, marginRight: 10, transform: [{ scale: 0.72 }] },
+  logoBlock: {
+    position: 'absolute',
+    width: 28,
+    height: 28,
+    left: 8,
+    top: 7,
+    borderRadius: 9,
+    shadowOpacity: 0.35,
+    shadowRadius: 9,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 4,
+    overflow: 'hidden',
+  },
+  logoBlockOffset: { left: 39, top: 7 },
+  logoBlockCorner: { left: 39, top: -24 },
+  logoBlockShine: { position: 'absolute', top: 4, left: 5, width: 13, height: 6, borderRadius: 5, backgroundColor: '#FFFFFF', opacity: 0.3 },
+  logoText: { fontFamily: DISPLAY_FONT, fontSize: 76, lineHeight: 82, letterSpacing: -3.2, textShadowColor: '#0000003D', textShadowOffset: { width: 0, height: 5 }, textShadowRadius: 12 },
+  logoTextCompact: { fontSize: 43, lineHeight: 49, letterSpacing: -1.8 },
+  button: {
+    width: 224,
+    minHeight: 58,
+    marginVertical: 6,
+    paddingHorizontal: 22,
+    paddingVertical: 13,
+    borderRadius: 18,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowOpacity: 0.2,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 7 },
+    elevation: 4,
+    overflow: 'hidden',
+  },
+  buttonWide: { width: '100%' },
+  buttonShine: { position: 'absolute', left: 20, right: 20, top: 4, height: 10, borderRadius: 8, backgroundColor: '#FFFFFF', opacity: 0.16 },
+  buttonText: { fontFamily: BUTTON_FONT, fontSize: 20, lineHeight: 25, textAlign: 'center' },
+  buttonPressed: { transform: [{ scale: 0.975 }, { translateY: 2 }], shadowOpacity: 0.08 },
+  iconButton: {
+    width: 52,
+    height: 52,
+    borderRadius: 17,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 8,
+  },
+  iconGraphic: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
+  iconPressed: { transform: [{ scale: 0.92 }] },
+  panel: {
+    borderWidth: 1,
+    borderRadius: 26,
+    padding: 20,
+    shadowOpacity: 0.24,
+    shadowRadius: 22,
+    shadowOffset: { width: 0, height: 12 },
+    elevation: 5,
+  },
 });

@@ -1,25 +1,29 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Fredoka_600SemiBold } from '@expo-google-fonts/fredoka/600SemiBold';
+import { Fredoka_700Bold } from '@expo-google-fonts/fredoka/700Bold';
+import { Manrope_600SemiBold } from '@expo-google-fonts/manrope/600SemiBold';
+import { Manrope_700Bold } from '@expo-google-fonts/manrope/700Bold';
 import { BackHandler, StyleSheet, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import { PixelBackdrop } from './src/components/PixelUi';
-import { createNewSession } from './src/domain/game';
-import type { PlayingSession, SaveData } from './src/domain/types';
-import { makeTranslator, systemLanguage } from './src/i18n/translations';
-import { GameScreen } from './src/screens/GameScreen';
-import { MenuScreen } from './src/screens/MenuScreen';
-import { ScoresScreen } from './src/screens/ScoresScreen';
-import { SettingsScreen } from './src/screens/SettingsScreen';
+import { GameBackdrop } from './components/PixelUi';
+import { createNewSession } from './domain/game';
+import type { PlayingSession, SaveData } from './domain/types';
+import { makeTranslator, systemLanguage } from './i18n/translations';
+import { GameScreen } from './screens/GameScreen';
+import { MenuScreen } from './screens/MenuScreen';
+import { ScoresScreen } from './screens/ScoresScreen';
+import { SettingsScreen } from './screens/SettingsScreen';
 import {
   loadSaveData,
   loadSettings,
   storeSaveData,
   storeSettings,
   type Settings,
-} from './src/storage/persistence';
-import { themes } from './src/theme/themes';
+} from './storage/persistence';
+import { theme } from './theme/themes';
 
 type Screen =
   | Readonly<{ kind: 'menu' }>
@@ -30,10 +34,14 @@ type Screen =
 type LoadedState = Readonly<{ save: SaveData; settings: Settings }>;
 
 export default function App() {
-  const [fontsLoaded] = useFonts({ Gamer: require('./assets/fonts/gamer.ttf') });
+  const [fontsLoaded] = useFonts({
+    Fredoka_600SemiBold,
+    Fredoka_700Bold,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+  });
   const [loaded, setLoaded] = useState<LoadedState | null>(null);
   const [screen, setScreen] = useState<Screen>({ kind: 'menu' });
-  const theme = themes[loaded?.settings.theme ?? 'purple'];
   const t = useMemo(() => makeTranslator(loaded?.settings.language ?? 'en'), [loaded?.settings.language]);
 
   useEffect(() => {
@@ -79,7 +87,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <PixelBackdrop theme={theme}>
+      <GameBackdrop>
         <SafeAreaView style={styles.safeArea} edges={['top', 'right', 'bottom', 'left']}>
           {screen.kind === 'menu' ? (
             <MenuScreen
@@ -118,7 +126,7 @@ export default function App() {
           ) : null}
         </SafeAreaView>
         <StatusBar style="light" />
-      </PixelBackdrop>
+      </GameBackdrop>
     </SafeAreaProvider>
   );
 }

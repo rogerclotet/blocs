@@ -16,9 +16,8 @@
       "package": "dev.clotet.blocs",
       "versionCode": 26,
       "adaptiveIcon": {
-        "backgroundColor": "#F0D979",
-        "foregroundImage": "./assets/icons/adaptive-foreground.png",
-        "backgroundImage": "./assets/icons/adaptive-background.png"
+        "backgroundColor": "#171321",
+        "foregroundImage": "./assets/icons/adaptive-foreground.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
