@@ -8,7 +8,7 @@ export const translations = {
     newHighScore: 'new high score!', share: 'share!', playAgain: 'play again', mainMenu: 'main menu',
     theme: 'theme', language: 'language', purple: 'purple', blueYellow: 'blue', green: 'green',
     undo: 'undo move', home: 'main menu', emptyHistory: 'finish a game to see it here',
-    shareText: 'I got {score} points with {blocks} blocks! Can you beat it? Play at https://play.google.com/store/apps/details?id=dev.clotet.Blocs',
+    shareText: 'I got {score} points with {blocks} blocks! Can you beat it? Play at https://play.google.com/store/apps/details?id=dev.clotet.blocs',
   },
   es: {
     newGame: 'nueva partida', continueGame: 'continuar', scores: 'puntuaciones', settings: 'opciones',
@@ -17,7 +17,7 @@ export const translations = {
     newHighScore: '¡nuevo récord!', share: '¡compartir!', playAgain: 'volver a jugar', mainMenu: 'menú principal',
     theme: 'tema', language: 'lengua', purple: 'lila', blueYellow: 'azul', green: 'verde',
     undo: 'deshacer jugada', home: 'menú principal', emptyHistory: 'termina una partida para verla aquí',
-    shareText: '¡He conseguido {score} puntos con {blocks} bloques! ¿Puedes superarlo? Juega en https://play.google.com/store/apps/details?id=dev.clotet.Blocs',
+    shareText: '¡He conseguido {score} puntos con {blocks} bloques! ¿Puedes superarlo? Juega en https://play.google.com/store/apps/details?id=dev.clotet.blocs',
   },
   ca: {
     newGame: 'nova partida', continueGame: 'continuar', scores: 'puntuacions', settings: 'opcions',
@@ -26,7 +26,7 @@ export const translations = {
     newHighScore: 'nou rècord!', share: 'compartir!', playAgain: 'tornar a jugar', mainMenu: 'menú principal',
     theme: 'tema', language: 'llengua', purple: 'lila', blueYellow: 'blau', green: 'verd',
     undo: 'desfer jugada', home: 'menú principal', emptyHistory: 'acaba una partida per veure-la aquí',
-    shareText: 'He aconseguit {score} punts amb {blocks} blocs! Pots superar-ho? Juga a https://play.google.com/store/apps/details?id=dev.clotet.Blocs',
+    shareText: 'He aconseguit {score} punts amb {blocks} blocs! Pots superar-ho? Juga a https://play.google.com/store/apps/details?id=dev.clotet.blocs',
   },
 } satisfies Record<Language, Record<string, string>>;
 

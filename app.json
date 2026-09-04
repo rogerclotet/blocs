@@ -9,11 +9,11 @@
     "scheme": "blocs",
     "newArchEnabled": true,
     "ios": {
-      "bundleIdentifier": "dev.clotet.Blocs",
+      "bundleIdentifier": "dev.clotet.blocs",
       "supportsTablet": true
     },
     "android": {
-      "package": "dev.clotet.Blocs",
+      "package": "dev.clotet.blocs",
       "versionCode": 26,
       "adaptiveIcon": {
         "backgroundColor": "#F0D979",
