@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-09-04
+
+### Changed
+
+- Replaced the app icon with a single in-game purple block at the standard iOS, Android, and web sizes.
+
 ## [2.1.0] - 2026-09-04
 
 ### Added
@@ -36,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Android releases before 2.0.0 were Unity builds tagged `1.08` through `1.22` and are not listed here.
 
-[Unreleased]: https://github.com/rogerclotet/blocs/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/rogerclotet/blocs/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/rogerclotet/blocs/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/rogerclotet/blocs/compare/1.22...v2.1.0
 [2.0.0]: https://github.com/rogerclotet/blocs/compare/1.22...v2.1.0

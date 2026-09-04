@@ -54,7 +54,6 @@ Conductor assigns different ports to each workspace, so these scripts can run al
 - `src/components/` contains reusable React Native UI.
 - `src/domain/` contains the platform-independent game rules.
 - `src/screens/` contains app screens.
-- `src/services/` contains platform integrations.
 - `src/storage/` contains persisted game and settings data.
 
-The app includes the 10×10 board, original piece set and scoring multipliers, single-step undo, saved games, score history, themes, Catalan, English, Spanish, and native result sharing. Google Play Games achievements and leaderboards require a custom Android development build; gameplay does not depend on that service.
+The app includes the 10×10 board, original piece set and scoring multipliers, single-step undo, saved games, score history, themes, Catalan, English, Spanish, and native result sharing.
