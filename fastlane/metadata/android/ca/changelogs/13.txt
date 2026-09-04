@@ -1,3 +1,0 @@
-- Aplicats els colors del tema a la pantalla de després de la partida
-- Millorades algunes animacions
-- Millorats alguns sons

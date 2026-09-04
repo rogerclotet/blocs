@@ -1,2 +1,0 @@
-- Logros arreglados
-- Mejoras en el menú principal

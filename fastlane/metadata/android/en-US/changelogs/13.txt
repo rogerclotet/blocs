@@ -1,3 +1,0 @@
-- Use theme colors for post-game overlay
-- Improved some animations
-- Improved sounds
