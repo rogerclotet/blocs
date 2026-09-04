@@ -1,3 +1,0 @@
-Coloca blques de forma ordenada de manera que se llenen filas o columnas de la cuadrícula y se eliminen.
-
-Cuantos más bloques puedas colocar, más puntos tendrás al final! Si eliminas líneas seguidas los puntos que consigas se multiplicarán.

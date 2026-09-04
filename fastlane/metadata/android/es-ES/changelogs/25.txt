@@ -1,1 +1,0 @@
-- Arreglado el sonido activandose solo cuando se cambia de dispositivo de audio
