@@ -1,7 +1,8 @@
 export const BOARD_SIZE = 10;
 export const PIECE_SLOT_COUNT = 3;
 
-export type Cell = 0 | 1;
+export type PieceColor = 'purple' | 'blue' | 'green' | 'gold' | 'mint' | 'coral';
+export type Cell = PieceColor | null;
 export type Board = ReadonlyArray<ReadonlyArray<Cell>>;
 
 export type Position = Readonly<{
@@ -37,7 +38,12 @@ export type PieceDefinition = Readonly<{
   blocks: ReadonlyArray<Position>;
 }>;
 
-export type PieceSlots = readonly [PieceId | null, PieceId | null, PieceId | null];
+export type OfferedPiece = Readonly<{
+  id: PieceId;
+  color: PieceColor;
+}>;
+
+export type PieceSlots = readonly [OfferedPiece | null, OfferedPiece | null, OfferedPiece | null];
 
 export type GameState = Readonly<{
   board: Board;

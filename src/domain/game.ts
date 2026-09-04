@@ -6,8 +6,9 @@ import {
   type Cell,
   type GameState,
   type LineScore,
+  type OfferedPiece,
   type PieceDefinition,
-  type PieceId,
+  type PieceColor,
   type PieceSlots,
   type PlaceResult,
   type PlayingSession,
@@ -15,8 +16,10 @@ import {
 } from './types';
 
 export function createEmptyBoard(): Board {
-  return Array.from({ length: BOARD_SIZE }, () => Array<Cell>(BOARD_SIZE).fill(0));
+  return Array.from({ length: BOARD_SIZE }, () => Array<Cell>(BOARD_SIZE).fill(null));
 }
+
+const PIECE_COLORS: ReadonlyArray<PieceColor> = ['purple', 'blue', 'green', 'gold', 'mint', 'coral'];
 
 function nextRandom(seed: number): readonly [number, number] {
   let nextSeed = seed >>> 0;
@@ -29,15 +32,30 @@ function nextRandom(seed: number): readonly [number, number] {
 
 function randomPieces(seed: number): readonly [PieceSlots, number] {
   let nextSeed = seed;
-  const ranked = PIECES.map((piece) => {
+  const rankedPieces = PIECES.map((piece) => {
     const [rank, updatedSeed] = nextRandom(nextSeed);
     nextSeed = updatedSeed;
     return { id: piece.id, rank };
   }).sort((left, right) => left.rank - right.rank);
 
-  const first = ranked[0]?.id ?? 'single';
-  const second = ranked[1]?.id ?? 'line-2-h';
-  const third = ranked[2]?.id ?? 'line-2-v';
+  const rankedColors = PIECE_COLORS.map((color) => {
+    const [rank, updatedSeed] = nextRandom(nextSeed);
+    nextSeed = updatedSeed;
+    return { color, rank };
+  }).sort((left, right) => left.rank - right.rank);
+
+  const first: OfferedPiece = {
+    id: rankedPieces[0]?.id ?? 'single',
+    color: rankedColors[0]?.color ?? 'purple',
+  };
+  const second: OfferedPiece = {
+    id: rankedPieces[1]?.id ?? 'line-2-h',
+    color: rankedColors[1]?.color ?? 'blue',
+  };
+  const third: OfferedPiece = {
+    id: rankedPieces[2]?.id ?? 'line-2-v',
+    color: rankedColors[2]?.color ?? 'green',
+  };
   return [[first, second, third], nextSeed];
 }
 
@@ -51,7 +69,7 @@ function randomPlaceablePieces(board: Board, seed: number): readonly [PieceSlots
     }
   }
 
-  return [['single', null, null], nextSeed];
+  return [[{ id: 'single', color: 'purple' }, null, null], nextSeed];
 }
 
 export function createNewSession(highScore: number, seed: number): PlayingSession {
@@ -84,7 +102,7 @@ export function isPiecePlaceable(
     return false;
   }
 
-  return piece.blocks.every((block) => board[row + block.row]?.[column + block.column] === 0);
+  return piece.blocks.every((block) => board[row + block.row]?.[column + block.column] === null);
 }
 
 export function canPlaceAnywhere(board: Board, piece: PieceDefinition): boolean {
@@ -99,7 +117,7 @@ export function canPlaceAnywhere(board: Board, piece: PieceDefinition): boolean 
 }
 
 export function hasPossibleMove(board: Board, pieces: PieceSlots): boolean {
-  return pieces.some((id) => id !== null && canPlaceAnywhere(board, getPiece(id)));
+  return pieces.some((piece) => piece !== null && canPlaceAnywhere(board, getPiece(piece.id)));
 }
 
 function mutableBoard(board: Board): Cell[][] {
@@ -111,10 +129,10 @@ function completeLines(board: Board): Readonly<{
   columns: ReadonlyArray<boolean>;
 }> {
   const rows = Array.from({ length: BOARD_SIZE }, (_, row) =>
-    Array.from({ length: BOARD_SIZE }, (_, column) => board[row]?.[column] === 1).every(Boolean),
+    Array.from({ length: BOARD_SIZE }, (_, column) => board[row]?.[column] !== null).every(Boolean),
   );
   const columns = Array.from({ length: BOARD_SIZE }, (_, column) =>
-    Array.from({ length: BOARD_SIZE }, (_, row) => board[row]?.[column] === 1).every(Boolean),
+    Array.from({ length: BOARD_SIZE }, (_, row) => board[row]?.[column] !== null).every(Boolean),
   );
   return { rows, columns };
 }
@@ -134,8 +152,8 @@ function clearCompletedLines(
       const rowToClear = board[index];
       if (!rowToClear) continue;
       for (let column = 0; column < BOARD_SIZE; column += 1) {
-        if (rowToClear[column] === 1) {
-          rowToClear[column] = 0;
+        if (rowToClear[column] !== null) {
+          rowToClear[column] = null;
           cleared += 1;
         }
       }
@@ -147,8 +165,9 @@ function clearCompletedLines(
       let cleared = 0;
       for (let row = 0; row < BOARD_SIZE; row += 1) {
         const rowToClear = board[row];
-        if (rowToClear?.[index] === 1) {
-          rowToClear[index] = 0;
+        const cell = rowToClear?.[index];
+        if (rowToClear && cell !== null && cell !== undefined) {
+          rowToClear[index] = null;
           cleared += 1;
         }
       }
@@ -160,7 +179,7 @@ function clearCompletedLines(
   return { board, lineScores, multiplier };
 }
 
-function replaceSlot(pieces: PieceSlots, slot: number, value: PieceId | null): PieceSlots {
+function replaceSlot(pieces: PieceSlots, slot: number, value: OfferedPiece | null): PieceSlots {
   if (slot === 0) return [value, pieces[1], pieces[2]];
   if (slot === 1) return [pieces[0], value, pieces[2]];
   return [pieces[0], pieces[1], value];
@@ -173,15 +192,15 @@ export function placePiece(
   column: number,
 ): PlaceResult {
   if (slot < 0 || slot >= PIECE_SLOT_COUNT) return { kind: 'invalid' };
-  const pieceId = session.game.pieces[slot];
-  if (pieceId === null || pieceId === undefined) return { kind: 'invalid' };
-  const piece = getPiece(pieceId);
+  const offeredPiece = session.game.pieces[slot];
+  if (offeredPiece === null || offeredPiece === undefined) return { kind: 'invalid' };
+  const piece = getPiece(offeredPiece.id);
   if (!isPiecePlaceable(session.game.board, piece, row, column)) return { kind: 'invalid' };
 
   const placedBoard = mutableBoard(session.game.board);
   for (const block of piece.blocks) {
     const targetRow = placedBoard[row + block.row];
-    if (targetRow) targetRow[column + block.column] = 1;
+    if (targetRow) targetRow[column + block.column] = offeredPiece.color;
   }
 
   const pieceScore = piece.blocks.length * session.game.previousMultiplier;

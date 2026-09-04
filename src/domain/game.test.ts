@@ -8,7 +8,7 @@ function boardWith(filled: ReadonlyArray<readonly [number, number]>): Board {
   const board = createEmptyBoard().map((row) => [...row]);
   for (const [row, column] of filled) {
     const target = board[row];
-    if (target) target[column] = 1;
+    if (target) target[column] = 'purple';
   }
   return board;
 }
@@ -35,7 +35,11 @@ function makeSession({
       placedBlocks: 0,
       highScore,
       beatHighScore: false,
-      pieces: [piece, 'line-2-h', 'line-2-v'],
+      pieces: [
+        { id: piece, color: 'purple' },
+        { id: 'line-2-h', color: 'blue' },
+        { id: 'line-2-v', color: 'green' },
+      ],
       randomSeed: 42,
       multiplier,
       previousMultiplier,
@@ -59,9 +63,9 @@ describe('piece placement', () => {
     expect(result.pieceScore).toBe(3);
     expect(result.session.game.score).toBe(3);
     expect(result.session.game.placedBlocks).toBe(3);
-    expect(result.session.game.board[3]?.[4]).toBe(1);
-    expect(result.session.game.board[4]?.[4]).toBe(1);
-    expect(result.session.game.board[4]?.[5]).toBe(1);
+    expect(result.session.game.board[3]?.[4]).toBe('purple');
+    expect(result.session.game.board[4]?.[4]).toBe('purple');
+    expect(result.session.game.board[4]?.[5]).toBe('purple');
   });
 
   it('clears a completed line for ten additional points', () => {
@@ -72,7 +76,7 @@ describe('piece placement', () => {
     expect(result.pieceScore).toBe(1);
     expect(result.lineScores).toEqual([{ kind: 'row', index: 0, score: 10, multiplier: 1 }]);
     expect(result.session.game.score).toBe(11);
-    expect(result.session.game.board[0]?.every((cell) => cell === 0)).toBe(true);
+    expect(result.session.game.board[0]?.every((cell) => cell === null)).toBe(true);
   });
 
   it('uses increasing multipliers when a row and column clear together', () => {
@@ -112,9 +116,31 @@ describe('undo', () => {
     expect(restored.game).toEqual(initial.game);
     expect(canUndo(restored)).toBe(false);
   });
+});
 
+describe('piece colors', () => {
   it('creates three distinct pieces for a new game', () => {
-    const ids = createNewSession(0, 123).game.pieces;
+    const ids = createNewSession(0, 123).game.pieces.map((piece) => piece?.id);
     expect(new Set(ids).size).toBe(3);
+  });
+
+  it('gives each new piece a different palette color', () => {
+    const pieces = createNewSession(0, 123).game.pieces;
+    const colors = pieces.map((piece) => piece?.color);
+
+    expect(colors.every((color) => color !== undefined)).toBe(true);
+    expect(new Set(colors).size).toBe(3);
+  });
+
+  it('keeps the piece color when placing its blocks on the board', () => {
+    const session = createNewSession(0, 123);
+    const piece = session.game.pieces[0];
+    expect(piece).not.toBeNull();
+    if (!piece) return;
+
+    const result = placePiece(session, 0, 0, 0);
+    expect(result.kind).toBe('placed');
+    if (result.kind !== 'placed') return;
+    expect(result.session.game.board[0]?.[0]).toBe(piece.color);
   });
 });

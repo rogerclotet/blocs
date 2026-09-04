@@ -1,14 +1,24 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { EMPTY_SAVE } from '../domain/game';
-import type { Board, Cell, GameState, HistoryEntry, PieceId, PieceSlots, PlayingSession, SaveData } from '../domain/types';
+import type {
+  Board,
+  Cell,
+  GameState,
+  HistoryEntry,
+  OfferedPiece,
+  PieceColor,
+  PieceId,
+  PieceSlots,
+  PlayingSession,
+  SaveData,
+} from '../domain/types';
 import type { Language } from '../i18n/translations';
-import type { ThemeName } from '../theme/themes';
 
 const SAVE_KEY = '@blocs/save/v1';
 const SETTINGS_KEY = '@blocs/settings/v1';
 
-export type Settings = Readonly<{ language: Language; theme: ThemeName }>;
+export type Settings = Readonly<{ language: Language }>;
 
 const isRecord = (value: unknown): value is object => typeof value === 'object' && value !== null;
 const numberOrNull = (value: unknown): number | null =>
@@ -28,6 +38,15 @@ function parsePieceId(value: unknown): PieceId | null | undefined {
   }
 }
 
+function parsePieceColor(value: unknown): PieceColor | null {
+  switch (value) {
+    case 'purple': case 'blue': case 'green': case 'gold': case 'mint': case 'coral':
+      return value;
+    default:
+      return null;
+  }
+}
+
 function parseBoard(value: unknown): Board | null {
   if (!Array.isArray(value) || value.length !== 10) return null;
   const board: Cell[][] = [];
@@ -35,19 +54,34 @@ function parseBoard(value: unknown): Board | null {
     if (!Array.isArray(rawRow) || rawRow.length !== 10) return null;
     const row: Cell[] = [];
     for (const rawCell of rawRow) {
-      if (rawCell !== 0 && rawCell !== 1) return null;
-      row.push(rawCell);
+      if (rawCell === 0 || rawCell === null) row.push(null);
+      else if (rawCell === 1) row.push('purple');
+      else {
+        const color = parsePieceColor(rawCell);
+        if (!color) return null;
+        row.push(color);
+      }
     }
     board.push(row);
   }
   return board;
 }
 
+function parseOfferedPiece(value: unknown, legacyColor: PieceColor): OfferedPiece | null | undefined {
+  const legacyId = parsePieceId(value);
+  if (legacyId !== undefined) return legacyId === null ? null : { id: legacyId, color: legacyColor };
+  if (!isRecord(value) || !('id' in value) || !('color' in value)) return undefined;
+  const id = parsePieceId(value.id);
+  const color = parsePieceColor(value.color);
+  if (id === null || id === undefined || !color) return undefined;
+  return { id, color };
+}
+
 function parsePieces(value: unknown): PieceSlots | null {
   if (!Array.isArray(value) || value.length !== 3) return null;
-  const first = parsePieceId(value[0]);
-  const second = parsePieceId(value[1]);
-  const third = parsePieceId(value[2]);
+  const first = parseOfferedPiece(value[0], 'purple');
+  const second = parseOfferedPiece(value[1], 'blue');
+  const third = parseOfferedPiece(value[2], 'green');
   if (first === undefined || second === undefined || third === undefined) return null;
   return [first, second, third];
 }
@@ -123,22 +157,20 @@ export async function storeSaveData(data: SaveData): Promise<void> {
 }
 
 function parseSettings(value: unknown, fallbackLanguage: Language): Settings {
-  if (!isRecord(value) || !('language' in value) || !('theme' in value)) {
-    return { language: fallbackLanguage, theme: 'purple' };
+  if (!isRecord(value) || !('language' in value)) {
+    return { language: fallbackLanguage };
   }
   const language = value.language === 'ca' || value.language === 'es' || value.language === 'en'
     ? value.language : fallbackLanguage;
-  const theme = value.theme === 'blueYellow' || value.theme === 'green' || value.theme === 'purple'
-    ? value.theme : 'purple';
-  return { language, theme };
+  return { language };
 }
 
 export async function loadSettings(fallbackLanguage: Language): Promise<Settings> {
   try {
     const serialized = await AsyncStorage.getItem(SETTINGS_KEY);
-    return serialized ? parseSettings(JSON.parse(serialized), fallbackLanguage) : { language: fallbackLanguage, theme: 'purple' };
+    return serialized ? parseSettings(JSON.parse(serialized), fallbackLanguage) : { language: fallbackLanguage };
   } catch {
-    return { language: fallbackLanguage, theme: 'purple' };
+    return { language: fallbackLanguage };
   }
 }
 

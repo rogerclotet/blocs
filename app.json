@@ -2,23 +2,22 @@
   "expo": {
     "name": "Blocs!",
     "slug": "blocs",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "orientation": "default",
     "icon": "./assets/icons/app-icon.png",
     "userInterfaceStyle": "dark",
     "scheme": "blocs",
     "newArchEnabled": true,
     "ios": {
-      "bundleIdentifier": "dev.clotet.Blocs",
+      "bundleIdentifier": "dev.clotet.blocs",
       "supportsTablet": true
     },
     "android": {
-      "package": "dev.clotet.Blocs",
-      "versionCode": 26,
+      "package": "dev.clotet.blocs",
+      "versionCode": 27,
       "adaptiveIcon": {
-        "backgroundColor": "#F0D979",
-        "foregroundImage": "./assets/icons/adaptive-foreground.png",
-        "backgroundImage": "./assets/icons/adaptive-background.png"
+        "backgroundColor": "#171321",
+        "foregroundImage": "./assets/icons/adaptive-foreground.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
