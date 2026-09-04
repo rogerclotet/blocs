@@ -2,7 +2,7 @@
   "expo": {
     "name": "Blocs!",
     "slug": "blocs",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "orientation": "default",
     "icon": "./assets/icons/app-icon.png",
     "userInterfaceStyle": "dark",
@@ -14,7 +14,7 @@
     },
     "android": {
       "package": "dev.clotet.blocs",
-      "versionCode": 26,
+      "versionCode": 27,
       "adaptiveIcon": {
         "backgroundColor": "#171321",
         "foregroundImage": "./assets/icons/adaptive-foreground.png"

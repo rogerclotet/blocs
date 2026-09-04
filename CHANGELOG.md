@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-09-04
+
+### Added
+
+- Added six piece colors that stay visible after blocks are placed.
+- Added drag, placement, line-clear, score, and game-over animations.
+
+### Changed
+
+- Redesigned the menus, game board, score history, settings, typography, controls, and app icons.
+- Simplified settings to one dark visual theme while keeping the existing language choices.
+
+### Fixed
+
+- Kept games saved by 2.0.0 compatible with the new colored pieces and board.
+
 ## [2.0.0] - 2026-09-04
 
 ### Changed
@@ -20,5 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Android releases before 2.0.0 were Unity builds tagged `1.08` through `1.22` and are not listed here.
 
-[Unreleased]: https://github.com/rogerclotet/blocs/compare/v2.0.0...HEAD
-[2.0.0]: https://github.com/rogerclotet/blocs/compare/1.22...v2.0.0
+[Unreleased]: https://github.com/rogerclotet/blocs/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/rogerclotet/blocs/compare/1.22...v2.1.0
+[2.0.0]: https://github.com/rogerclotet/blocs/compare/1.22...v2.1.0
