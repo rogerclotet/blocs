@@ -1,3 +1,0 @@
-- Botón de compartir la puntuación después de una partida
-- Mejoras en la interfaz de usuario
-- Mejoras en la desactivación del sonido

@@ -1,1 +1,0 @@
-- Arreglat el so activant-se sol quan es canvia de dispositiu d'àudio

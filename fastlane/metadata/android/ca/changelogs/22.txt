@@ -1,2 +1,0 @@
-- Millores al menú principal
-- Arreglat el so desactivat després de tornar a obrir l'aplicació

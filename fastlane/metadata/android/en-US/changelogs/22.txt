@@ -1,2 +1,0 @@
-- Improvements in main menu
-- Fixed a bug with disabled sound after coming from background
