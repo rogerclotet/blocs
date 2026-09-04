@@ -28,14 +28,13 @@ pnpm typecheck
 
 GitHub Actions builds a sideloadable Android APK and attaches it to a GitHub Release. There is no iOS build yet.
 
-Publish a version tag:
+Ask an agent to create a release (or invoke `/create-release`). It chooses patch, minor, or major from the changes since the last tag, updates `CHANGELOG.md`, `package.json`, and `app.json`, then creates an annotated `vX.Y.Z` tag. Push the tag only when you want to publish:
 
 ```sh
-git tag v2.0.0
 git push origin v2.0.0
 ```
 
-Or run the **Android Release** workflow from the Actions tab. If you do not pass a tag, it uses `v` plus the version in `package.json`.
+You can also tag by hand or run the **Android Release** workflow from the Actions tab. If you do not pass a tag, the workflow uses `v` plus the version in `package.json`.
 
 Download `blocs-<version>.apk` from the release page and open it on the device. You may need to allow installing from the browser. The Android package is `dev.clotet.blocs`.
 
