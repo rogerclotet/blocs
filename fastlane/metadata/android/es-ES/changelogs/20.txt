@@ -1,1 +1,0 @@
-- Limitado el número de movimientos a deshacer a 1

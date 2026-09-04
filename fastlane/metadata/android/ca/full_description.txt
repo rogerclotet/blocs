@@ -1,3 +1,0 @@
-Col·loca blocs de forma ordenada de manera que s'omplin files o columnes de la graella i s'eliminin.
-
-Com més blocs puguis posar, més punts tindràs al final! Si elimines línies seguides els punts que aconsegueixis es multiplicaran.

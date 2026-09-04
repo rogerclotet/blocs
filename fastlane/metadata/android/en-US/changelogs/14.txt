@@ -1,2 +1,0 @@
-- Leaderboard
-- Google Play Games integration

@@ -1,1 +1,0 @@
-- Limitats el número de moviments a desfer a 1
